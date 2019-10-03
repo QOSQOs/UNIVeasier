@@ -1,2 +1,2 @@
 # unkown
-Managing our university life cicle (before, now and after)
+Managing our university life cycle (before, now and after)
