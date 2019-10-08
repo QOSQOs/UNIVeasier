@@ -1,10 +1,13 @@
 package schedule
 
+import "time"
+
 type Schedule struct {
-	Id         uint  `json:"id"`
-	CourseId   uint  `json:"course_id"`
-	Start      int64 `json:"start"`
-	End        int64 `json:"end"`
-	Day        uint  `json:"day"`
-	IsVerified bool  `json:"is_verified"`
+	Id          uint64    `json:"id"`
+	CourseId    uint64    `json:"course_id"`
+	Start       time.Time `json:"start"`
+	End         time.Time `json:"end"`
+	Day         int32     `json:"day"`
+	IsVerified  bool      `json:"is_verified"`
+	DocVerifier string    `json:"doc_verifier"`
 }

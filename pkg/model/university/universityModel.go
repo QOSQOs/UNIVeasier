@@ -1,10 +1,10 @@
 package university
 
 type University struct {
-	Id               uint    `json:"id"`
-	LocalRank        int     `json:"local_rank"`
-	GlobalRank       int     `json:"global_rank"`
-	TypeUniversityId uint    `json:"type_university_id"`
+	Id               uint64  `json:"id"`
+	LocalRank        int32   `json:"local_rank"`
+	GlobalRank       int32   `json:"global_rank"`
+	TypeUniversityId uint64  `json:"type_university_id"`
 	Acronym          string  `json:"acronym"`
 	Name             string  `json:"name"`
 	Region           string  `json:"region"`
@@ -13,4 +13,5 @@ type University struct {
 	Altitude         float32 `json:"altitude"`
 	Logo             string  `json:"logo"`
 	IsVerified       bool    `json:"is_verified"`
+	DocVerifier      string  `json:"doc_verifier"`
 }

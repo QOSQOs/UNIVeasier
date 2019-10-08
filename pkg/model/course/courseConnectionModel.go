@@ -1,11 +1,11 @@
 package course
 
 type CourseConnection struct {
-	Id               uint `json:"id"`
-	CareerId         uint `json:"career_id"`
-	Year             int  `json:"year"`
-	Period           int  `json:"period"`
-	Child            uint `json:"child"`
-	Parent           uint `json:"parent"`
-	ThresholdCredits int  `json:"threshold _credits"`
+	Id               uint64 `json:"id"`
+	CareerId         uint64 `json:"career_id"`
+	Year             int32  `json:"year"`
+	Period           int32  `json:"period"`
+	Child            uint64 `json:"child"`
+	Parent           uint64 `json:"parent"`
+	ThresholdCredits int32  `json:"threshold _credits"`
 }
