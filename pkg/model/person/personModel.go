@@ -9,6 +9,7 @@ type Person struct {
 	FirstName     string    `json:"first_name"`
 	LastName      string    `json:"last_name"`
 	Phone         string    `json:"phone"`
+	Email         string    `json:"email"`
 	Avatar        string    `json:"avatar"`
 	Type          int32     `json:"type"`
 	HomeCity      string    `json:"home_city"`
