@@ -8,7 +8,7 @@ type Story struct {
 	Unrecommended int64  `json:"unrecomended"`
 	Views         int64  `json:"views"`
 	IsVerified    bool   `json:"is_verified"`
-	DocVerifier   string `json:"doc_verifier"`
+	DocVerifier   []byte `json:"doc_verifier"`
 	AllowComments bool   `json:"allow_comments"`
 	Layer         int32  `json:"layer"`
 	PersonId      uint64 `json:"person_id"`

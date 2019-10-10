@@ -9,5 +9,5 @@ type Schedule struct {
 	End         time.Time `json:"end"`
 	Day         int32     `json:"day"`
 	IsVerified  bool      `json:"is_verified"`
-	DocVerifier string    `json:"doc_verifier"`
+	DocVerifier []byte    `json:"doc_verifier"`
 }

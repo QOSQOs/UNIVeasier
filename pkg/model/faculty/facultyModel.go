@@ -5,8 +5,8 @@ type Faculty struct {
 	Acronym      string `json:"acronym"`
 	Name         string `json:"name"`
 	Description  string `json:"description"`
-	Logo         string `json:"logo"`
+	Logo         []byte `json:"logo"`
 	IsVerified   bool   `json:"is_verified"`
-	DocVerifier  string `json:"doc_verifier"`
+	DocVerifier  []byte `json:"doc_verifier"`
 	UniversityId uint64 `json:"university_id"`
 }

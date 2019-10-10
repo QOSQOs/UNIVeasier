@@ -12,7 +12,7 @@ type Course struct {
 	Semester     int32  `json:"semester"`
 	TotalHours   int32  `json:"total_hours"`
 	IsVerified   bool   `json:"is_verified"`
-	DocVerifier  string `json:"doc_verifier"`
+	DocVerifier  []byte `json:"doc_verifier"`
 	TypeCourseId uint64 `json:"type_course_id"`
 	CareerId     uint64 `json:"carrera_id"`
 	PersonId     uint64 `json:"person_id"`

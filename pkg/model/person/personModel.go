@@ -10,7 +10,7 @@ type Person struct {
 	LastName      string    `json:"last_name"`
 	Phone         string    `json:"phone"`
 	Email         string    `json:"email"`
-	Avatar        string    `json:"avatar"`
+	Avatar        []byte    `json:"avatar"`
 	Type          int32     `json:"type"`
 	HomeCity      string    `json:"home_city"`
 	CurrentCity   string    `json:"current_city"`
@@ -20,5 +20,5 @@ type Person struct {
 	AdmissionYear int32     `json:"admission_year"`
 	Period        int32     `json:"period"`
 	IsVerified    bool      `json:"is_verified"`
-	DocVerifier   string    `json:"doc_verifier"`
+	DocVerifier   []byte    `json:"doc_verifier"`
 }

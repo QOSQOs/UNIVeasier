@@ -5,5 +5,5 @@ type TypeUniversity struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	IsVerified  bool   `json:"is_verified"`
-	DocVerifier string `json:"doc_verifier"`
+	DocVerifier []byte `json:"doc_verifier"`
 }

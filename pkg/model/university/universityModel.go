@@ -10,9 +10,9 @@ type University struct {
 	Description      string  `json:"description"`
 	Latitude         float32 `json:"latitude"`
 	Altitude         float32 `json:"altitude"`
-	Logo             string  `json:"logo"`
+	Logo             []byte  `json:"logo"`
 	IsVerified       bool    `json:"is_verified"`
-	DocVerifier      string  `json:"doc_verifier"`
+	DocVerifier      []byte  `json:"doc_verifier"`
 	Reference        string  `json:"reference"`
 	TypeUniversityId uint64  `json:"type_university_id"`
 	AlbumId          uint64  `json:"album_id"`
