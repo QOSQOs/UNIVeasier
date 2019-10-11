@@ -30,7 +30,7 @@ course_id    | int      | which course the enrollment was made
 status       | int      | approved, disapproved or failed
 grade        | float    | final grade obtained
 is_verified  | bool     | trivial
-doc_verifier | []bytes  | doc received to verifier the enrollment (photo)
+doc_verifier | []byte   | doc received to verifier the enrollment (photo)
 
 ## 4. career
 Column        | Type      | Description
@@ -41,7 +41,7 @@ name          | string    | trivial
 description   | string    | trivial
 logo          | string    | pic of the career
 is_verified   | bool      | trivial
-doc_verifier  | []bytes   | doc received to verifier it (photo)
+doc_verifier  | []byte    | doc received to verifier it (photo)
 reference     | string    | link of any reference
 faculty_id    | int       | faculty to which it belongs
 album_id      | int       | trivial
@@ -56,7 +56,7 @@ description  | string   | trivial
 event        | string   | event in which the award was obtained
 place        | int      | place obtained
 is_verified  | bool     | trivial
-doc_verifier | []bytes  | doc received to verifier its existence (photo)
+doc_verifier | []byte   | doc received to verifier its existence (photo)
 career_id    | int      | career to which it belongs
 album_id     | int      | trivial
 
@@ -72,7 +72,7 @@ person_id    | int      | user who belong the interest
 Column       | Type     | Description
 :------------| :--------|:---------------
 id           | int      | auto-increment count
-pic          | []bytes  | trivial
+pic          | []byte   | trivial
 descripion   | string   | brief description
 album_id     | int      | album to which the photo belongs
 
@@ -93,8 +93,8 @@ Column            | Type       | Description
 id                | int        | auto-increment count
 title             | string     | trivial
 body              | string     | trivial
-recomended        | int        | number of users who recommend the story
-unrecomended      | int        | number of user who unrecommend the story
+recommended        | int        | number of users who recommend the story
+unrecommended      | int        | number of user who unrecommend the story
 views             | int        | number of users who saw the story
 is_verified       | bool       | trivial
 doc_verifier      | string     | doc received to verifier the story (photo)
@@ -139,7 +139,7 @@ period          | int     | semeste in which the course opened
 semester        | int     | semester to which the course belongs
 total_hours     | int     | trivial
 is_verified     | bool    | trivial
-doc_verifier    | []bytes | doc received to verifier it (photo)
+doc_verifier    | []byte  | doc received to verifier it (photo)
 type_course_id  | int     | can be many types: mandatory, optional, etc.
 career_id       | int     | career to which the course belongs
 person_id       | int     | professor in charge of the course
@@ -151,8 +151,8 @@ id              | int     | auto-increment count
 acronym         | string  | course type code
 name            | string  | trivial
 description     | string  | trivial
-is_verified     | bool     | trivial
-doc_verifier    | []bytes | doc received to verifier it (photo)
+is_verified     | bool    | trivial
+doc_verifier    | []byte  | doc received to verifier it (photo)
 
 
 ## 14. faculty
@@ -163,8 +163,8 @@ acronym         | string  | faculty code
 name            | string  | trivial
 description     | string  | trivial
 logo            | []byte  | trivial
-is_verified     | bool     | trivial
-doc_verifier    | []bytes | doc received to verifier it (photo)
+is_verified     | bool    | trivial
+doc_verifier    | []byte  | doc received to verifier it (photo)
 university_id   | int     | university to which the faculty belongs
 
 ## 15. career_person
@@ -172,8 +172,8 @@ Column          | Type    | Description
 :---------------| :-------|:---------------
 person_id       | int     | trivial
 career_id       | int     | trivial
-is_verified     | bool     | trivial
-doc_verifier    | []bytes | doc received to verifier it (photo)
+is_verified     | bool    | trivial
+doc_verifier    | []byte  | doc received to verifier it (photo)
 
 ## 16. person
 Column         | Type     | Description
@@ -185,7 +185,7 @@ first_name     | string   | trivial
 last_name      | string   | trivial
 phone          | string   | trivial
 email          | string   | trivial
-avatar         | []bytes  | trivial
+avatar         | []byte   | trivial
 type           | int      | trivial
 home_city      | string   | trivial
 current_city   | string   | trivial
@@ -195,7 +195,7 @@ birth_date     | date     | trivial
 admission_year | int      | year in which the user started university
 period         | int      | semester
 is_verified    | bool     | trivial
-doc_verifier   | []bytes  | doc received to verifier it (photo)
+doc_verifier   | []byte   | doc received to verifier it (photo)
 
 ## 17. type_university
 Column         | Type     | Description
@@ -204,7 +204,7 @@ id             | int      | auto-increment count
 name           | string   | trivial
 description    | string   | trivial
 is_verified    | bool     | trivial
-doc_verifier   | []bytes  | doc received to verifier it (photo)
+doc_verifier   | []byte   | doc received to verifier it (photo)
 
 ## 18. university
 Column             | Type     | Description
@@ -220,7 +220,14 @@ latitude           | float    | trivial
 altitude           | float    | trivial
 logo               | []byte   | pic of the university
 is_verified        | bool     | trivial
-doc_verifier       | []bytes  | doc received to verifier it (photo)
+doc_verifier       | []byte   | doc received to verifier it (photo)
 reference          | string   | link for the main web page of the university
 type_university_id | int      | can be publi, private, etc.
 album_id           | int      | trivial
+
+## 19. album
+Column       | Type     | Description
+:------------| :--------|:---------------
+id           | int      | auto-increment count
+name         | string   | trivial
+description  | string   | trivial
