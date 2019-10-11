@@ -6,7 +6,7 @@ type Award struct {
 	Period      string `json:"period"`
 	Description string `json:"description"`
 	Event       string `json:"event"`
-	place       bool   `json:"place"`
+	Place       bool   `json:"place"`
 	IsVerified  bool   `json:"is_verified"`
 	DocVerifier []byte `json:"doc_verifier"`
 	CareerId    string `json:"career_id"`
