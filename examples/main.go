@@ -8,6 +8,7 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -49,9 +50,14 @@ func (s *Server) initializeRoutes() {
 }
 
 func (s *Server) run() error {
+
+	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
+	origins := handlers.AllowedOrigins([]string{"*"})
+
 	fmt.Println("Listening on http://localhost:8000")
 
-	err := http.ListenAndServe(":8000", s.Router)
+	err := http.ListenAndServe(":8000", handlers.CORS(headers, methods, origins)(s.Router))
 	if err != nil {
 		fmt.Println("Error listening:", err.Error())
 		os.Exit(1)
