@@ -1,0 +1,11 @@
+{
+    "db": {
+        "driver": "mysql",
+        "name": "dbtest",
+        "username": "root",
+        "password": "qosqo123",
+        "protocol": "tcp",
+        "host": "localhost",
+        "port": "3306"
+    }
+}

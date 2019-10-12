@@ -3,14 +3,18 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
+	"flag"
 	"net/http"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+
+	"go.uber.org/zap"
 )
+
+var log *zap.SugaredLogger
 
 type Test struct {
 	ID   int    `json:"id"`
@@ -18,26 +22,29 @@ type Test struct {
 }
 
 type Server struct {
-	Router *mux.Router
-	db     *sql.DB
+	Router     *mux.Router
+	db         *sql.DB
+	configPath string
+	config     *Config
 }
 
 func (s *Server) initialize() error {
 	// Open up our database connection
-	db, err := sql.Open("mysql", "root:qosqo123@tcp(localhost:3306)/dbtest")
+	config, err := GetConfig(s.configPath)
 	if err != nil {
-		fmt.Println("Error the arguments are not valid:", err.Error())
 		return err
 	}
 
-	err = db.Ping()
+	db, err := InitConnection(config.DB)
 	if err != nil {
-		fmt.Println("Error connection with the database:", err.Error())
 		return err
 	}
 
-	fmt.Println("Successfully connected")
+	log.Info("Successfully connected")
+
+	s.config = config
 	s.db = db
+
 	s.Router = mux.NewRouter()
 	s.initializeRoutes()
 
@@ -55,11 +62,11 @@ func (s *Server) run() error {
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
 	origins := handlers.AllowedOrigins([]string{"*"})
 
-	fmt.Println("Listening on http://localhost:8000")
+	log.Info("Listening on http://localhost:8000")
 
 	err := http.ListenAndServe(":8000", handlers.CORS(headers, methods, origins)(s.Router))
 	if err != nil {
-		fmt.Println("Error listening:", err.Error())
+		log.Errorw("Error listening", "error", err.Error())
 		os.Exit(1)
 	}
 
@@ -136,7 +143,15 @@ func list(db *sql.DB) ([]Test, error) {
 }
 
 func main() {
-	s := Server{}
+	logger, _ := zap.NewDevelopment()
+	log = logger.Sugar()
+
+	configFilepath := flag.String("config", "", "References to configuration file.")
+	flag.Parse()
+
+	log.Info(*configFilepath)
+
+	s := Server{configPath: *configFilepath}
 	s.initialize()
 	s.run()
 }
