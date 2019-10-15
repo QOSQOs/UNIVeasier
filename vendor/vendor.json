@@ -1,0 +1,99 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "Lps/+JqMRVlrXgO/+cazYcfsglg=",
+			"origin": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
+			"path": "github.com/davecgh/go-spew/spew",
+			"revision": "85f2b59c4459e5bf57488796be8c3667cb8246d6",
+			"revisionTime": "2018-07-16T14:42:29Z"
+		},
+		{
+			"checksumSHA1": "goKdJPx9vwINN//4B5aqqF2K+TE=",
+			"path": "github.com/go-sql-driver/mysql",
+			"revision": "14bb9c0fc20fc57f6c3339adeac7f469768d9524",
+			"revisionTime": "2019-10-01T06:09:45Z"
+		},
+		{
+			"checksumSHA1": "uEuiTr48wmkwuEzl2yiTRG85okc=",
+			"path": "github.com/gorilla/handlers",
+			"revision": "8a3748addc242fc560bd6d4ff28b0374c010b1b4",
+			"revisionTime": "2019-07-23T03:58:38Z"
+		},
+		{
+			"checksumSHA1": "LpuAuuum3yW0/OI48ZfdC7pccDA=",
+			"path": "github.com/gorilla/mux",
+			"revision": "884b5ffcbd3a11b730f0b75f5c86ac408753c34d",
+			"revisionTime": "2019-08-30T12:11:56Z"
+		},
+		{
+			"checksumSHA1": "R3yk3OJzuq4MVfVGX5AhkkYv1ko=",
+			"origin": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
+			"path": "github.com/pmezard/go-difflib/difflib",
+			"revision": "85f2b59c4459e5bf57488796be8c3667cb8246d6",
+			"revisionTime": "2018-07-16T14:42:29Z"
+		},
+		{
+			"checksumSHA1": "JXi08+lk9BZmNlGWy1f7TTebC4M=",
+			"path": "github.com/stretchr/testify/assert",
+			"revision": "85f2b59c4459e5bf57488796be8c3667cb8246d6",
+			"revisionTime": "2018-07-16T14:42:29Z"
+		},
+		{
+			"checksumSHA1": "0zu2FS8IXNQSrJKjn5eb9VgTq1E=",
+			"path": "go.uber.org/atomic",
+			"revision": "ef0d20d85b01f4708a8085bca571838bf59a3f77",
+			"revisionTime": "2019-07-31T19:47:37Z"
+		},
+		{
+			"checksumSHA1": "ovWHrFaSwcKiGopRVZ8ZKpS/Ba4=",
+			"path": "go.uber.org/multierr",
+			"revision": "71e610a0e48dbda460d9c18adca8b5f2de04a7c1",
+			"revisionTime": "2019-09-26T22:03:28Z"
+		},
+		{
+			"checksumSHA1": "LBup68yvyLzrMACT/h+2/Umx/7U=",
+			"path": "go.uber.org/zap",
+			"revision": "d8445f34b4ae69130c5337a6fb65f317e3b71f76",
+			"revisionTime": "2019-09-26T18:45:45Z"
+		},
+		{
+			"checksumSHA1": "afFbYQlWVvMANwhNqMazS3uM0Dc=",
+			"path": "go.uber.org/zap/buffer",
+			"revision": "d8445f34b4ae69130c5337a6fb65f317e3b71f76",
+			"revisionTime": "2019-09-26T18:45:45Z"
+		},
+		{
+			"checksumSHA1": "Y0uE8U8wxuPku0bFZyVmYLznd/o=",
+			"path": "go.uber.org/zap/internal/bufferpool",
+			"revision": "d8445f34b4ae69130c5337a6fb65f317e3b71f76",
+			"revisionTime": "2019-09-26T18:45:45Z"
+		},
+		{
+			"checksumSHA1": "AA/i5mzFuQBeFcE+d9ZBLPropjU=",
+			"path": "go.uber.org/zap/internal/color",
+			"revision": "d8445f34b4ae69130c5337a6fb65f317e3b71f76",
+			"revisionTime": "2019-09-26T18:45:45Z"
+		},
+		{
+			"checksumSHA1": "fjEB1pcePOWjEmayG54E92JYgWk=",
+			"path": "go.uber.org/zap/internal/exit",
+			"revision": "d8445f34b4ae69130c5337a6fb65f317e3b71f76",
+			"revisionTime": "2019-09-26T18:45:45Z"
+		},
+		{
+			"checksumSHA1": "vIk6gh7RiQIjmn5p3JbT2h8/iDY=",
+			"path": "go.uber.org/zap/zapcore",
+			"revision": "d8445f34b4ae69130c5337a6fb65f317e3b71f76",
+			"revisionTime": "2019-09-26T18:45:45Z"
+		},
+		{
+			"checksumSHA1": "IIynGPtCIDkcW55ba4U0AVOrwPg=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "f221b8435cfb71e54062f6c6e99e9ade30b124d5",
+			"revisionTime": "2019-10-02T18:33:36Z"
+		}
+	],
+	"rootPath": "github.com/QOSQOs/UNIVeasier"
+}
