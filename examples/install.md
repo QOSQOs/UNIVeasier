@@ -45,14 +45,32 @@ USE dbtest;
 
 CREATE TABLE IF NOT EXISTS dbtest.tabletest (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL,
+    age INT NOT NULL,
+    email VARCHAR(50) NOT NULL
 )  ENGINE=INNODB;
+
+DELIMITER //
+
+CREATE PROCEDURE dbtest.GetListTest()
+BEGIN
+    SELECT *  FROM dbtest.tabletest;
+END //
+
+CREATE PROCEDURE dbtest.GetTest(_name VARCHAR(255))
+BEGIN
+    SELECT *  FROM dbtest.tabletest WHERE name = _name;
+END //
+
+DELIMITER ;
 
 SHOW TABLES IN dbtest;
 
-INSERT INTO dbtest.tabletest(name) VALUES ('Kleiber');
-INSERT INTO dbtest.tabletest(name) VALUES ('Darwin');
-INSERT INTO dbtest.tabletest(name) VALUES ('Dany');
+INSERT INTO dbtest.tabletest(name, age, email) VALUES ('Kleiber', '27', 'kleiber100892@gmail.com');
+INSERT INTO dbtest.tabletest(name, age, email) VALUES ('Darwin', '24', 'darwin.ttito.c@gmail.com');
+INSERT INTO dbtest.tabletest(name, age, email) VALUES ('Dany', '26', 'florezatauchi@gmail.com');
+
+SELECT * FROM dbtest.tabletest;
 
 DELETE FROM dbtest.tabletest WHERE name = 'Kleiber';
 
