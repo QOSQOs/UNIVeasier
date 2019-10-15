@@ -9,7 +9,7 @@ type University struct {
 	Region           string  `json:"region"`
 	Description      string  `json:"description"`
 	Latitude         float32 `json:"latitude"`
-	Altitude         float32 `json:"altitude"`
+	Longitude        float32 `json:"longitude"`
 	Logo             []byte  `json:"logo"`
 	IsVerified       bool    `json:"is_verified"`
 	DocVerifier      []byte  `json:"doc_verifier"`

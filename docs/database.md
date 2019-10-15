@@ -11,6 +11,7 @@ content      | string   | trivial
 like         | int      | number of users who like the comment
 dislike      | int      | number of users who dislike the comment
 story_id     | int      | story where the comment was added
+date         | date      | when the comment was made
 person_id    | int      | who created the comment
 
 ## 2. contribution
@@ -19,6 +20,7 @@ Column      | Type      | Description
 id          | int       | auto-increment count
 date        | date      | when the contribution was made
 score       | int       | points earned for the contribution
+description | string    | why was the contribution?
 person_id   | int       | user who did the contribution
 
 ## 3. enrollment
@@ -65,7 +67,7 @@ Column       | Type     | Description
 :------------| :--------|:---------------
 id           | int      | auto-increment count
 tag          | string   | brief title that represent the interest
-skill        | bool     | is it a skill or just an interest?
+is_skill     | bool     | is it a skill or just an interest?
 person_id    | int      | user who belong the interest
 
 ## 7. photo
@@ -93,13 +95,14 @@ Column            | Type       | Description
 id                | int        | auto-increment count
 title             | string     | trivial
 body              | string     | trivial
-recommended        | int        | number of users who recommend the story
-unrecommended      | int        | number of user who unrecommend the story
+recommended       | int        | number of users who recommend the story
+unrecommended     | int        | number of user who unrecommend the story
 views             | int        | number of users who saw the story
 is_verified       | bool       | trivial
 doc_verifier      | string     | doc received to verifier the story (photo)
 allow_comments    | bool       | trivial
 layer             | int        | in which layer the story was created
+date              | date       | when the story was created
 person_id         | int        | who created the story
 
 ## 10. tag_container
@@ -113,6 +116,7 @@ reference     | int       | link or any reference
 type          | int       | two possible types: speciality or requirement
 layer         | int       | in which layer the story was created
 career_id     | int       | career to which it belong
+person_id     | int       | who created the tag
 
 ## 11. course_connection
 Column            | Type    | Description
@@ -153,7 +157,7 @@ name            | string  | trivial
 description     | string  | trivial
 is_verified     | bool    | trivial
 doc_verifier    | []byte  | doc received to verifier it (photo)
-
+university_id   | int     | university to which the type courses belongs
 
 ## 14. faculty
 Column          | Type    | Description
@@ -217,7 +221,7 @@ name               | string   | trivial
 region             | string   | trivial
 description        | string   | trivial
 latitude           | float    | trivial
-altitude           | float    | trivial
+longitude          | float    | trivial
 logo               | []byte   | pic of the university
 is_verified        | bool     | trivial
 doc_verifier       | []byte   | doc received to verifier it (photo)

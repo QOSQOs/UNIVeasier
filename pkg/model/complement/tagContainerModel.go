@@ -8,5 +8,6 @@ type TagContainer struct {
 	Reference string `json:"reference"`
 	Type      int32  `json:"type"`
 	Layer     int32  `json:"layer"`
-	CareerId  string `json:"career_id"`
+	CareerId  uint64 `json:"career_id"`
+	PersonId  uint64 `json:"person_id"`
 }
