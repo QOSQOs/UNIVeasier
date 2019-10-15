@@ -2,6 +2,7 @@ package api
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 
 	"github.com/QOSQOs/UNIVeasier/internal/common"
@@ -30,9 +31,9 @@ func (s *Server) initLogger() error {
 	return nil
 }
 
-func (s *Server) initConfiguration(filename string) error {
+func (s *Server) initConfiguration(filepath string) error {
 	var err error
-	s.Config, err = config.ReadConfiguration(filename)
+	s.Config, err = config.ReadConfiguration(filepath)
 	if err != nil {
 		return err
 	}
@@ -59,7 +60,6 @@ func (s *Server) Initialize(filename string) error {
 		return err
 	}
 	common.Log = s.Log
-	common.Global = "variable"
 
 	s.Log.Info("Reading the configuration file")
 	err = s.initConfiguration(filename)
@@ -84,9 +84,10 @@ func (s *Server) Run() {
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
 	origins := handlers.AllowedOrigins([]string{"*"})
 
-	s.Log.Info("Server listening on http://localhost:8000")
+	s.Log.Info(fmt.Sprintf("Server listening on http://%s:%s", s.Config.SERVER.HOST, s.Config.SERVER.PORT))
 
-	err := http.ListenAndServe(":8000", handlers.CORS(headers, methods, origins)(s.Router))
+	port := fmt.Sprintf(":%s", s.Config.SERVER.PORT)
+	err := http.ListenAndServe(port, handlers.CORS(headers, methods, origins)(s.Router))
 	if err != nil {
 		s.Log.Errorw("Cannot initialize server", "info", err.Error())
 	} else {

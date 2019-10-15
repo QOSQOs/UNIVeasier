@@ -1,4 +1,8 @@
 {
+    "server": {
+        "host": "localhost",
+        "port": "8000"
+    },
     "db": {
         "driver": "mysql",
         "name": "dbtest",

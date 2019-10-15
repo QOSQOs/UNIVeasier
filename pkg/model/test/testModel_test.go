@@ -15,19 +15,21 @@ func TestValidation1(t *testing.T) {
 		email         string
 		expectedError bool
 	}{
-		{"", 12, "aaa@aa.dd", true},
-		{"aaa", 12, "aaa@aa.dd", false},
-		{"aaa", 12, "a$aa@aa.dd", true},
-		{"aaa", -1, "aaa@aa.dd", true},
+		{"juan gabriel", 27, "juan10@qosqo.com", false},
+		{"pepe", 28, "pepe@univeasier.net", false},
+		{"", 12, "a@pe.edu", true},
+		{"luis10", 16, "a@pe.edu", true},
+		{"juan", -1, "a@pe.edu", true},
+		{"gabriel", 18, "gabi@pe.edu1", true},
 	}
 
 	for _, t := range tests {
 		model := Test{Name: t.name, Age: t.age, Email: t.email}
 		err := model.Validate()
 		if t.expectedError {
-			assert.Error(err)
+			assert.Error(err, model)
 		} else {
-			assert.NoError(err)
+			assert.NoError(err, model)
 		}
 	}
 }

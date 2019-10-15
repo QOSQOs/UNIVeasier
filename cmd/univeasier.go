@@ -10,10 +10,10 @@ func main() {
 		flag.Parse()
 		s.Initialize(*filename)
 	*/
-	
-	filename := `C:\Users\i865255\go\src\github.com\QOSQOs\UNIVeasier\internal\config\config.json`
+
+	configPath := `C:\Users\i865255\go\src\github.com\QOSQOs\UNIVeasier\internal\config\config.json`
 
 	s := api.Server{}
-	s.Initialize(filename)
+	s.Initialize(configPath)
 	s.Run()
 }

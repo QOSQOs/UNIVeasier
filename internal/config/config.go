@@ -8,6 +8,11 @@ import (
 	"github.com/QOSQOs/UNIVeasier/internal/common"
 )
 
+type SERVERConfig struct {
+	HOST string `json:"host"`
+	PORT string `json:"port"`
+}
+
 type DBConfig struct {
 	DRIVER   string `json:"driver"`
 	NAME     string `json:"name"`
@@ -19,19 +24,20 @@ type DBConfig struct {
 }
 
 type Config struct {
-	DB *DBConfig
+	DB     *DBConfig
+	SERVER *SERVERConfig
 }
 
-func ReadConfiguration(filename string) (*Config, error) {
-	_, err := os.Stat(filename)
+func ReadConfiguration(filepath string) (*Config, error) {
+	_, err := os.Stat(filepath)
 	if err != nil {
-		common.Log.Infow("Cannot find the configuration file", "filename", filename, "info", err.Error())
+		common.Log.Infow("Cannot find the configuration file", "filepath", filepath, "info", err.Error())
 		return nil, err
 	}
 
-	buf, err := ioutil.ReadFile(filename)
+	buf, err := ioutil.ReadFile(filepath)
 	if err != nil {
-		common.Log.Infow("Configuration file read failed", "filename", filename, "info", err.Error())
+		common.Log.Infow("Configuration file read failed", "filepath", filepath, "info", err.Error())
 		return nil, err
 	}
 

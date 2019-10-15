@@ -2,10 +2,11 @@ package test
 
 import (
 	"errors"
-	"fmt"
-
-	"github.com/QOSQOs/UNIVeasier/internal/common"
+	"regexp"
 )
+
+var lettersRegex = regexp.MustCompile(`^[a-zA-Z]+\s*[a-zA-Z]*$`)
+var emailsRegex = regexp.MustCompile(`^[a-z0-9._\-]+@[a-z.\-]+\.[a-z]{2,4}$`)
 
 type Test struct {
 	ID    int    `json:"id"`
@@ -15,23 +16,19 @@ type Test struct {
 }
 
 func (t *Test) Validate() error {
-	ok := common.Letters.MatchString(t.Name)
+	ok := lettersRegex.MatchString(t.Name)
 	if len(t.Name) == 0 || !ok {
 		return errors.New("Invalid test name")
 	}
-
-	fmt.Println("2")
 
 	if t.Age < 0 || t.Age > 200 {
 		return errors.New("Invalid test age")
 	}
 
-	fmt.Println("3")
-
-	ok = common.Emails.MatchString(t.Email)
+	ok = emailsRegex.MatchString(t.Email)
 	if len(t.Email) == 0 || !ok {
 		return errors.New("Invalid test email")
 	}
-	fmt.Println("4")
+
 	return nil
 }
