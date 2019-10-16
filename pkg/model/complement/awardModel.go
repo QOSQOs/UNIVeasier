@@ -5,7 +5,7 @@ import "time"
 type Award struct {
 	Id               uint64    `json:"id"`
 	Year             string    `json:"year"`
-	Period           string    `json:"period"`
+	Period           int32     `json:"period"`
 	Description      string    `json:"description"`
 	Event            string    `json:"event"`
 	Place            int32     `json:"place"`

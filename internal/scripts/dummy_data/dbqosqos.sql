@@ -64,7 +64,7 @@ INSERT INTO dbqosqos.type_course(acronym, name, description, is_verified, doc_ve
 
 SELECT * FROM dbqosqos.type_course;
 
-INSERT INTO dbqosqos.course(code, name, description, credits, batch, year, period, semester, total_hours, is_verified, doc_verifier, created_date, last_modified_date, type_course_id, career_id, professor, created_by) VALUES
+INSERT INTO dbqosqos.course(code, name, description, credits, batch, year, period, semester, total_hours, is_verified, doc_verifier, created_date, last_modified_date, type_course_id, career_id, professor_id, created_by) VALUES
 ('IF607', 'BIOINFORMATICA', 'this is a course', 4, 1, 2019, 1, 0, 35, 0, NULL, now(), now(), 1, 1, 7, 4),
 ('IF404', 'LENGUAJE ENSAMBLADOR', 'this is a course', 3, 1, 2019, 1, 0, 35, 0, NULL, now(), now(), 1, 1, 7, 4),
 ('ME165', 'MATEMATICA BASICA II', 'this is a course', 4, 1, 2019, 1, 0, 35, 0, NULL, now(), now(), 2, 1, 7, 4),
@@ -272,4 +272,4 @@ INSERT INTO dbqosqos.tag_container(tag, agree, disagree, reference, type, layer,
 ('amazon', 4, 0, 'arti-intell.com.pe', 3, 3, now(), now(), 0, NULL, 1, 6),
 ('SAP', 2, 1, 'software-engineer.com.pe', 3, 3, now(), now(), 1, NULL, 1, 6);
 
-SELECT * FROM dbqosqos.comment;
+SELECT * FROM dbqosqos.tag_container;

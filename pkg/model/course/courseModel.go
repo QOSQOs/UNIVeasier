@@ -19,6 +19,6 @@ type Course struct {
 	LastModifiedDate time.Time `json:"last_modified_date"`
 	TypeCourseId     uint64    `json:"type_course_id"`
 	CareerId         uint64    `json:"carrera_id"`
-	Professor        uint64    `json:"professor"`
+	ProfessorId      uint64    `json:"professor_id"`
 	CreatedBy        uint64    `json:"created_by"`
 }

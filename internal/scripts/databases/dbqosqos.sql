@@ -259,11 +259,11 @@ CREATE TABLE IF NOT EXISTS `dbqosqos`.`course` (
   `last_modified_date` DATE NULL,
   `type_course_id` INT NULL,
   `career_id` INT NULL,
-  `professor` INT NULL,
+  `professor_id` INT NULL,
   `created_by` INT NULL,
   INDEX `fk_course_type_course1_idx` (`type_course_id` ASC) VISIBLE,
   PRIMARY KEY (`id`),
-  INDEX `fk_course_person1_idx` (`professor` ASC) VISIBLE,
+  INDEX `fk_course_person1_idx` (`professor_id` ASC) VISIBLE,
   INDEX `fk_course_person2_idx` (`created_by` ASC) VISIBLE,
   CONSTRAINT `fk_requirement_career_career1`
     FOREIGN KEY (`career_id`)
@@ -276,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `dbqosqos`.`course` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_course_person1`
-    FOREIGN KEY (`professor`)
+    FOREIGN KEY (`professor_id`)
     REFERENCES `dbqosqos`.`person` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
