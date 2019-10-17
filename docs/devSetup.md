@@ -42,7 +42,7 @@ Update package information from the MySQL APT repository.
 $ sudo apt-get update
 ```
 
-Install MySQL and start the server. During the installation, you are asked to supply a password for the root user for your MySQL installation. Therefore provide as user `root` and password `qosqo123`.
+Install MySQL and start the server. During the installation, you are asked to supply a password for the root user for your MySQL installation. Therefore provide as user `root` and choose a password.
 
 ```bash
 $ sudo apt-get install mysql-server
@@ -78,6 +78,32 @@ Clone the project from our github repository
 
 ```bash
 $ go get github.com/QOSQOs/UNIVeasier
+```
+
+Change the default values ​​in the configuration file located in `$REPO/internal/config/config.json`
+
+```json
+{
+    "server": {
+        "host": "localhost",
+        "port": "8000"
+    },
+    "db": {
+        "driver": "mysql",
+        "name": "dbtest",
+        "username": "root",
+        "password": "your-user-password",
+        "protocol": "tcp",
+        "host": "localhost",
+        "port": "your-database-port"
+    }
+}
+```
+
+Run the following command to find the port on which your MySQL installation is serving.
+
+```sql
+SHOW GLOBAL VARIABLES LIKE 'PORT';
 ```
 
 Build the project binary
