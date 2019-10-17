@@ -175,8 +175,8 @@ Init the server
 
 ``` bash
 $ cd $REPO/../UNIVeasier-ui
-$ npm install
-$ npm run serve
+$ sudo npm install
+$ sudo npm run serve
 ```
 
 Open your browser and go to the server url
