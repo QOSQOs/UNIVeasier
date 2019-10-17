@@ -7,12 +7,6 @@ import (
 )
 
 func main() {
-	/*
-		filename:= flag.String("config", "", "References to configuration file.")
-		flag.Parse()
-		s.Initialize(*filename)
-	*/
-
 	configPath := os.Getenv("CONFIG")
 
 	s := api.Server{}
