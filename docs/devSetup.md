@@ -175,7 +175,7 @@ Init the server
 
 ``` bash
 $ cd $REPO/../UNIVeasier-ui
-$ hpm install
+$ npm install
 $ npm run serve
 ```
 
