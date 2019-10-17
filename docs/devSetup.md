@@ -59,9 +59,10 @@ $ mysql-workbench
 
 ### Run project
 
-Add to the PATH environment variable.
+Add to the PATH environment variable. The configuration filepath `$CONFIG` and the project path `$REPO`.
 
 ```bash
+$ export CONFIG=$REPO/internal/config/config.json
 $ export REPO=$GOPATH/src/github.com/QOSQOs/UNIVeasier
 ```
 
