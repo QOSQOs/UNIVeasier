@@ -9,7 +9,7 @@ Choose the archive file appropriate for your installation. For instance, if you 
 
 `tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz`
 
-Then, download the archive and extract it into `/usr/local`.
+Download the archive and extract it into `/usr/local`.
 
 ```bash
 $ tar -C /usr/local -xzf go1.13.1.linux-amd64.tar.gz
@@ -29,7 +29,7 @@ $ go version`
 ```
 
 ### Install MySQL database
-First, add the MySQL APT repository to your system's software repository list.
+Add the MySQL APT repository to your system's software repository list.
 
 ```bash
 $ wget –c https://dev.mysql.com/get/mysql-apt-config_0.8.10-1_all.deb
@@ -42,7 +42,7 @@ Update package information from the MySQL APT repository.
 $ sudo apt-get update
 ```
 
-Later, install MySQL and start the server. During the installation, you are asked to supply a password for the root user for your MySQL installation. Therefore provide as user `root` and password `qosqo123`.
+Install MySQL and start the server. During the installation, you are asked to supply a password for the root user for your MySQL installation. Therefore provide as user `root` and password `qosqo123`.
 
 ```bash
 $ sudo apt-get install mysql-server
@@ -50,7 +50,7 @@ $ sudo service mysql status
 $ sudo service mysql start
 ```
 
-To install and run MySQL Workbench:
+Install and run MySQL Workbench:
 
 ```bash
 $ sudo apt install mysql-workbench
@@ -65,7 +65,7 @@ Add to the PATH environment variable.
 $ export REPO=$GOPATH/src/github.com/QOSQOs/UNIVeasier
 ```
 
-First we need to execute the database scripts. Then, open MySQL Workbench and connect with the user `root` , password `qosqo123` and execute the following scripts:
+Execute the database scripts. Then, open MySQL Workbench and connect with the user `root` , password `qosqo123` and run the following scripts:
 
 ``` bash
 $ cd $REPO/internal/scripts/databases/dbtest.sql
@@ -100,14 +100,14 @@ $ curl -s -X GET http://localhost:8000/test/{name}
 
 ### Run project unit test
 
-In order to run the unit test. To run an especific test, go to the folder where the file containing the tests is located and run:
+Run an especific unit test of the project. Go to the folder where the file containing it test is located and run:
 
 ```bash
 $ cd $REPO/pkg/model/test
 $ go test -v
 ```
 
-To run all unit tests of the project:
+Run all unit tests of the project:
 
 ``` bash
 $ cd $REPO
@@ -115,7 +115,10 @@ $ go test ./...
 ```
 
 ## Front-end tools
-### Install nodejs and npm
+### Install Node.js and npm
+
+Installation instructions:
+
 ``` bash
 $ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 $ sudo apt-get install -y nodejs
@@ -123,7 +126,10 @@ $ node -v
 $ npm -v
 ```
 
-### Install Vue
+### Install Vue CLI
+
+To install the new package, use one of the following commands. You need administrator privileges to execute these unless npm was installed on your system through a Node.js version manager.
+
 ``` bash
 $ sudo npm install -g @vue/cli
 $ vue --version
@@ -142,10 +148,11 @@ Init the server
 
 ``` bash
 $ cd $REPO/../UNIVeasier-ui
+$ hpm install
 $ npm run serve
 ```
 
-To test, open your browser and go to the server url
+Open your browser and go to the server url
 
 ```
  App running at:
