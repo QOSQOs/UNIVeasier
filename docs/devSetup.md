@@ -62,8 +62,8 @@ $ mysql-workbench
 Add The configuration file and the project repo environment variables.
 
 ```bash
-$ export CONFIG=$REPO/internal/config/config.json
 $ export REPO=$GOPATH/src/github.com/QOSQOs/UNIVeasier
+$ export CONFIG=$REPO/internal/config/config.json
 ```
 
 Execute the database scripts, open MySQL Workbench and connect with the user `root`and run the following scripts:
