@@ -1,6 +1,6 @@
 # Development setup
 
-# Linux Ubuntu
+# Ubuntu
 
 ## Backend tools
 
@@ -28,7 +28,7 @@ Check if the installation was successful.
 $ go version`
 ```
 
-### Install MySQL database
+### Install MySQL
 Add the MySQL APT repository to your system's software repository list.
 
 ```bash
@@ -42,7 +42,7 @@ Update package information from the MySQL APT repository.
 $ sudo apt-get update
 ```
 
-Install MySQL and start the server. During the installation, you are asked to supply a password for the root user for your MySQL installation. Therefore provide as user `root` and choose a password.
+Install MySQL and start the server, during the installation, you are asked to supply a password for the root user for your MySQL installation. Therefore, provide as user `root` and choose a password.
 
 ```bash
 $ sudo apt-get install mysql-server
@@ -59,14 +59,14 @@ $ mysql-workbench
 
 ### Run project
 
-Add to the PATH environment variable. The configuration filepath `$CONFIG` and the project path `$REPO`.
+Add The configuration file and the project repo environment variables.
 
 ```bash
 $ export CONFIG=$REPO/internal/config/config.json
 $ export REPO=$GOPATH/src/github.com/QOSQOs/UNIVeasier
 ```
 
-Execute the database scripts. Then, open MySQL Workbench and connect with the user `root` , password `qosqo123` and run the following scripts:
+Execute the database scripts, open MySQL Workbench and connect with the user `root`and run the following scripts:
 
 ``` bash
 $ cd $REPO/internal/scripts/databases/dbtest.sql
@@ -80,7 +80,7 @@ Clone the project from our github repository
 $ go get github.com/QOSQOs/UNIVeasier
 ```
 
-Change the default values ​​in the configuration file located in `$REPO/internal/config/config.json`
+Change the default values in the configuration file in `$REPO/internal/config/config.json`
 
 ```json
 {
@@ -125,16 +125,16 @@ $ curl -s -X GET http://localhost:8000/test
 $ curl -s -X GET http://localhost:8000/test/{name}
 ```
 
-### Run project unit test
+### Run unit test
 
-Run an especific unit test of the project. Go to the folder where the file containing it test is located and run:
+To run an especific unit test, go to the folder where the unit test file is located and execute the following commands:
 
 ```bash
 $ cd $REPO/pkg/model/test
 $ go test -v
 ```
 
-Run all unit tests of the project:
+Run all unit tests:
 
 ``` bash
 $ cd $REPO
