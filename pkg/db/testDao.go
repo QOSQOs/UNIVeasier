@@ -7,6 +7,15 @@ import (
 	"github.com/QOSQOs/UNIVeasier/pkg/model/test"
 )
 
+func AddTest(conn *sql.DB, model test.Test) error {
+	_, err := conn.Exec("call AddTest(?, ?, ?)", model.Name, model.Age, model.Email)
+	if err != nil {
+		common.Log.Errorw("The query cannot be done", "info", err.Error())
+		return err
+	}
+	return nil
+}
+
 func GetTest(conn *sql.DB, name string) (test.Test, error) {
 	var model test.Test
 	err := conn.QueryRow("call GetTest(?)", name).Scan(&model.ID, &model.Name, &model.Age, &model.Email)
