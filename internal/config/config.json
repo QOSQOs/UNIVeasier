@@ -1,15 +1,15 @@
 {
     "server": {
-        "host": "localhost",
-        "port": "8000"
+        "host": "",
+        "port": ""
     },
     "db": {
         "driver": "mysql",
-        "name": "dbtest",
-        "username": "root",
-        "password": "qosqo123",
+        "name": "",
+        "username": "",
+        "password": "",
         "protocol": "tcp",
-        "host": "localhost",
-        "port": "3306"
+        "host": "",
+        "port": ""
     }
 }
