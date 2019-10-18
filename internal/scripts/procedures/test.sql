@@ -1,13 +1,13 @@
 DELIMITER //
 
-CREATE PROCEDURE GetListTest()
+CREATE PROCEDURE dbtest.GetListTest()
 BEGIN
-    SELECT *  FROM dbtest.tabletest;
+    SELECT * FROM dbtest.tabletest;
 END //
 
-CREATE PROCEDURE GetTest(_name VARCHAR(255))
+CREATE PROCEDURE dbtest.GetTest(parameter_name VARCHAR(255))
 BEGIN
-    SELECT *  FROM dbtest.tabletest WHERE name = _name;
+    SELECT * FROM dbtest.tabletest WHERE name = parameter_name;
 END //
 
 DELIMITER ;
