@@ -1,15 +1,15 @@
 {
     "server": {
-        "host": "server_host",
-        "port": "server_port"
+        "host": "",
+        "port": ""
     },
     "db": {
         "driver": "mysql",
-        "name": "database_name",
-        "username": "user_name",
-        "password": "user-password",
+        "name": "",
+        "username": "",
+        "password": "",
         "protocol": "tcp",
-        "host": "db_host",
-        "port": "db_port"
+        "host": "",
+        "port": ""
     }
 }
