@@ -11,6 +11,7 @@ import (
 func (s *Server) RoutesTest() {
 	s.Router.HandleFunc("/test/{name}", s.getTest).Methods("GET")
 	s.Router.HandleFunc("/test", s.getListTest).Methods("GET")
+	s.Router.HandleFunc("/test", s.addTest).Methods("POST")
 }
 
 func (s *Server) getTest(w http.ResponseWriter, r *http.Request) {
@@ -46,6 +47,20 @@ func (s *Server) getListTest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(response)
+}
+
+func (s *Server) addTest(w http.ResponseWriter, r *http.Request) {
+	err := app.ServiceAddTest(s.Conn, r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	response := []byte("The record was successfully added")
+
+	w.Header().Set("Content-Type", "text/plain")
 	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }
