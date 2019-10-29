@@ -11,7 +11,7 @@ import (
 )
 
 func getStringConnection(db *config.DBConfig) string {
-	stringConnection := fmt.Sprintf("%s:%s@%s(%s:%s)/%s",
+	stringConnection := fmt.Sprintf("%s:%s@%s(%s:%s)/%s?parseTime=true",
 		db.USERNAME,
 		db.PASSWORD,
 		db.PROTOCOL,
