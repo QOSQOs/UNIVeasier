@@ -24,6 +24,11 @@ func AddPerson(conn *sql.DB, body io.Reader) error {
 		common.Log.Errorw("Body Unmarshal failed", "info", err.Error())
 	}
 
+	err = m.Validate()
+	if err != nil {
+		common.Log.Errorw("Invalid model", "info", err.Error())
+	}
+
 	err = personDao.AddPerson(conn, m)
 	if err != nil {
 		return err

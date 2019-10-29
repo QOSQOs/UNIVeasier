@@ -21,7 +21,7 @@ type Server struct {
 	Router *mux.Router
 }
 
-func (s *Server) initLoggerAndProperties() error {
+func (s *Server) initLogger() error {
 	logger, err := zap.NewDevelopment()
 	if err != nil {
 		return err
@@ -54,7 +54,7 @@ func (s *Server) initRouter() {
 }
 
 func (s *Server) Initialize(filename string) error {
-	err := s.initLoggerAndProperties()
+	err := s.initLogger()
 	if err != nil {
 		return err
 	}
