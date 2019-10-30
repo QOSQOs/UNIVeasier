@@ -15,11 +15,11 @@ func TestInstanceStatus(t *testing.T) {
 		expectedResult1 string
 		expectedResult2 bool
 	}{
-		{1, "UNVERIFIED", true},
-		{2, "PENDING", true},
-		{3, "VERIFIED", true},
+		{0, "UNVERIFIED", true},
+		{1, "PENDING", true},
+		{2, "VERIFIED", true},
+		{3, "", false},
 		{4, "", false},
-		{5, "", false},
 	}
 	for _, test := range tests {
 		name := test.instanceStatus.String()
@@ -37,11 +37,11 @@ func TestInstanceStatusGetByName(t *testing.T) {
 		name           string
 		expectedResult InstanceStatus
 	}{
-		{"UNVERIFIED", 1},
-		{"PENDING", 2},
-		{"VERIFIED", 3},
-		{"HELLO", 0},
-		{"NONE", 0},
+		{"UNVERIFIED", 0},
+		{"PENDING", 1},
+		{"VERIFIED", 2},
+		{"HELLO", -1},
+		{"NONE", -1},
 	}
 	for _, test := range tests {
 		var model InstanceStatus

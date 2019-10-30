@@ -1,4 +1,4 @@
-package common
+package types
 
 import (
 	"database/sql"
@@ -8,12 +8,12 @@ import (
 )
 
 // NullString is an alias for sql.NullString data type
-type NullString struct {
+type String struct {
 	sql.NullString
 }
 
 // MarshalJSON for NullString
-func (ns *NullString) MarshalJSON() ([]byte, error) {
+func (ns *String) MarshalJSON() ([]byte, error) {
 	if !ns.Valid {
 		return []byte("null"), nil
 	}
@@ -23,7 +23,7 @@ func (ns *NullString) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON implements json.Unmarshaler.
 // It supports string and null input. Blank string input does not produce a null String.
 // It also supports unmarshalling a sql.NullString.
-func (ns *NullString) UnmarshalJSON(data []byte) error {
+func (ns *String) UnmarshalJSON(data []byte) error {
 	var err error
 	var v interface{}
 	if err = json.Unmarshal(data, &v); err != nil {
@@ -45,13 +45,13 @@ func (ns *NullString) UnmarshalJSON(data []byte) error {
 }
 
 // IntFrom creates a new Int that will always be valid.
-func StringFrom(s string) NullString {
+func StringFrom(s string) String {
 	return NewString(s, true)
 }
 
 // NewInt creates a new Int
-func NewString(s string, valid bool) NullString {
-	return NullString{
+func NewString(s string, valid bool) String {
+	return String{
 		NullString: sql.NullString{
 			String: s,
 			Valid:  valid,
@@ -60,6 +60,6 @@ func NewString(s string, valid bool) NullString {
 }
 
 // IsZero returns true for invalid Ints
-func (ns NullString) IsNull() bool {
+func (ns String) IsNull() bool {
 	return !ns.Valid
 }

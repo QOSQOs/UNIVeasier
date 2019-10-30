@@ -1,4 +1,4 @@
-package common
+package types
 
 import (
 	"database/sql"
@@ -9,12 +9,12 @@ import (
 )
 
 // NullTime is an alias for mysql.NullTime data type
-type NullTime struct {
+type Time struct {
 	sql.NullTime
 }
 
 // MarshalJSON for NullTime
-func (nt *NullTime) MarshalJSON() ([]byte, error) {
+func (nt *Time) MarshalJSON() ([]byte, error) {
 	if !nt.Valid {
 		return []byte("null"), nil
 	}
@@ -25,7 +25,7 @@ func (nt *NullTime) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON implements json.Unmarshaler.
 // It supports string, object (e.g. pq.NullTime and friends)
 // and null input.
-func (nt *NullTime) UnmarshalJSON(data []byte) error {
+func (nt *Time) UnmarshalJSON(data []byte) error {
 	var err error
 	var v interface{}
 	if err = json.Unmarshal(data, &v); err != nil {
@@ -54,13 +54,13 @@ func (nt *NullTime) UnmarshalJSON(data []byte) error {
 }
 
 // IntFrom creates a new Int that will always be valid.
-func TimeFrom(t time.Time) NullTime {
+func TimeFrom(t time.Time) Time {
 	return NewTime(t, true)
 }
 
 // NewInt creates a new Int
-func NewTime(t time.Time, valid bool) NullTime {
-	return NullTime{
+func NewTime(t time.Time, valid bool) Time {
+	return Time{
 		NullTime: sql.NullTime{
 			Time:  t,
 			Valid: valid,
@@ -69,6 +69,6 @@ func NewTime(t time.Time, valid bool) NullTime {
 }
 
 // IsZero returns true for invalid Ints
-func (nt NullTime) IsNull() bool {
+func (nt Time) IsNull() bool {
 	return !nt.Valid
 }

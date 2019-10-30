@@ -15,10 +15,10 @@ func TestGender(t *testing.T) {
 		expectedResult1 string
 		expectedResult2 bool
 	}{
-		{1, "MALE", true},
-		{2, "FEMALE", true},
-		{3, "OTHER", true},
-		{4, "", false},
+		{0, "MALE", true},
+		{1, "FEMALE", true},
+		{2, "OTHER", true},
+		{3, "", false},
 	}
 	for _, test := range tests {
 		name := test.gender.String()
@@ -36,11 +36,11 @@ func TestGenderGetByName(t *testing.T) {
 		name           string
 		expectedResult Gender
 	}{
-		{"MALE", 1},
-		{"FEMALE", 2},
-		{"OTHER", 3},
-		{"HELLO", 0},
-		{"NONE", 0},
+		{"MALE", 0},
+		{"FEMALE", 1},
+		{"OTHER", 2},
+		{"HELLO", -1},
+		{"NONE", -1},
 	}
 	for _, test := range tests {
 		var model Gender

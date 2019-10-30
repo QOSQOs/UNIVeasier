@@ -15,12 +15,12 @@ func TestTypePerson(t *testing.T) {
 		expectedResult1 string
 		expectedResult2 bool
 	}{
-		{1, "VISITOR", true},
-		{2, "STUDENT", true},
-		{3, "GRADUATED", true},
-		{4, "PROFESSOR", true},
+		{0, "VISITOR", true},
+		{1, "STUDENT", true},
+		{2, "GRADUATED", true},
+		{3, "PROFESSOR", true},
+		{4, "", false},
 		{5, "", false},
-		{6, "", false},
 	}
 	for _, test := range tests {
 		name := test.typePerson.String()
@@ -38,12 +38,12 @@ func TestTypePersonGetByName(t *testing.T) {
 		name           string
 		expectedResult TypePerson
 	}{
-		{"VISITOR", 1},
-		{"STUDENT", 2},
-		{"GRADUATED", 3},
-		{"PROFESSOR", 4},
-		{"HELLO", 0},
-		{"NONE", 0},
+		{"VISITOR", 0},
+		{"STUDENT", 1},
+		{"GRADUATED", 2},
+		{"PROFESSOR", 3},
+		{"HELLO", -1},
+		{"NONE", -1},
 	}
 	for _, test := range tests {
 		var model TypePerson

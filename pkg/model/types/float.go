@@ -1,4 +1,4 @@
-package common
+package types
 
 import (
 	"database/sql"
@@ -9,12 +9,12 @@ import (
 )
 
 // NullFloat64 is an alias for sql.NullFloat64 data type
-type NullFloat64 struct {
+type Float64 struct {
 	sql.NullFloat64
 }
 
-// MarshalJSON for NullFloat64
-func (nf *NullFloat64) MarshalJSON() ([]byte, error) {
+// MarshalJSON for Float64
+func (nf *Float64) MarshalJSON() ([]byte, error) {
 	if !nf.Valid {
 		return []byte("null"), nil
 	}
@@ -25,7 +25,7 @@ func (nf *NullFloat64) MarshalJSON() ([]byte, error) {
 // It supports number and null input.
 // 0 will not be considered a null Float.
 // It also supports unmarshalling a sql.NullFloat64.
-func (nf *NullFloat64) UnmarshalJSON(data []byte) error {
+func (nf *Float64) UnmarshalJSON(data []byte) error {
 	var err error
 	var v interface{}
 	if err = json.Unmarshal(data, &v); err != nil {
@@ -54,13 +54,13 @@ func (nf *NullFloat64) UnmarshalJSON(data []byte) error {
 }
 
 // IntFrom creates a new Int that will always be valid.
-func Float64From(f float64) NullFloat64 {
+func Float64From(f float64) Float64 {
 	return NewFloat64(f, true)
 }
 
 // NewInt creates a new Int
-func NewFloat64(f float64, valid bool) NullFloat64 {
-	return NullFloat64{
+func NewFloat64(f float64, valid bool) Float64 {
+	return Float64{
 		NullFloat64: sql.NullFloat64{
 			Float64: f,
 			Valid:   valid,
@@ -68,12 +68,7 @@ func NewFloat64(f float64, valid bool) NullFloat64 {
 	}
 }
 
-// return the value
-func (nf NullFloat64) Value() float64 {
-	return nf.Float64
-}
-
 // IsZero returns true for invalid Ints
-func (nf NullFloat64) IsNull() bool {
+func (nf Float64) IsNull() bool {
 	return !nf.Valid
 }

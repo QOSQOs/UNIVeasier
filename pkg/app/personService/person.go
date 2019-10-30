@@ -16,17 +16,20 @@ func AddPerson(conn *sql.DB, body io.Reader) error {
 	buf, err := ioutil.ReadAll(body)
 	if err != nil {
 		common.Log.Errorw("Cannot read body", "info", err.Error())
+		return err
 	}
 
 	var m model.Person
 	err = json.Unmarshal(buf, &m)
 	if err != nil {
 		common.Log.Errorw("Body Unmarshal failed", "info", err.Error())
+		return err
 	}
 
 	err = m.Validate()
 	if err != nil {
-		common.Log.Errorw("Invalid model", "info", err.Error())
+		common.Log.Errorw("Invalid model", "info", err.Error(), "json: ", m)
+		return err
 	}
 
 	err = personDao.AddPerson(conn, m)

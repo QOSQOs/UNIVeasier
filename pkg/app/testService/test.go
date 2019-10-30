@@ -16,12 +16,14 @@ func AddTest(conn *sql.DB, body io.Reader) error {
 	buf, err := ioutil.ReadAll(body)
 	if err != nil {
 		common.Log.Errorw("Cannot read body", "info", err.Error())
+		return err
 	}
 
 	var m model.Test
 	err = json.Unmarshal(buf, &m)
 	if err != nil {
 		common.Log.Errorw("Body Unmarshal failed", "info", err.Error())
+		return err
 	}
 
 	err = testDao.AddTest(conn, m)
