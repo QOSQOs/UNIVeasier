@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestValidation(t *testing.T) {
+func TestValidationPerson(t *testing.T) {
 	assert := assert.New(t)
 
 	var tests = []struct {
