@@ -360,13 +360,14 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `dbqosqos`.`career_person` ;
 
 CREATE TABLE IF NOT EXISTS `dbqosqos`.`career_person` (
-  `career_id` INT NOT NULL,
-  `person_id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `career_id` INT NULL,
+  `person_id` INT NULL,
   `is_verified` INT NULL,
   `doc_verifier` BLOB NULL,
   `created_date` DATE NULL,
   `last_modified_date` DATE NULL,
-  PRIMARY KEY (`career_id`, `person_id`),
+  PRIMARY KEY (`id`),
   INDEX `fk_career_has_person_person1_idx` (`person_id` ASC) VISIBLE,
   INDEX `fk_career_has_person_career1_idx` (`career_id` ASC) VISIBLE,
   CONSTRAINT `fk_career_has_person_career1`
