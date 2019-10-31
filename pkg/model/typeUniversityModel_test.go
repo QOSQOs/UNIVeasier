@@ -1,10 +1,11 @@
 package model
 
 import (
+	"github.com/QOSQOs/UNIVeasier/internal/utils"
+	"github.com/QOSQOs/UNIVeasier/pkg/model/types"
+
 	"testing"
 
-	"github.com/QOSQOs/UNIVeasier/pkg/model/common"
-	"github.com/QOSQOs/UNIVeasier/pkg/model/types"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,31 +13,31 @@ func TestValidationTypeUniversity(t *testing.T) {
 	assert := assert.New(t)
 
 	var tests = []struct {
+		testNumber    int8
 		name          string
 		description   string
-		isVerified    common.InstanceStatus
+		isVerified    types.Status
 		createdBy     types.Int64
 		expectedError bool
 	}{
-		{"public", "public universities", 1, types.NewInt64(1, true), false},
-		{"private", "private universities", 2, types.NewInt64(2, true), false},
-		{"private", "private universities", 2, types.NewInt64(0, false), true},
-		{"state", "it is an invalid example", 1, types.NewInt64(0, false), true},
-		{"", "", 10, types.NewInt64(1, true), true},
+		{0, "public", "public universities", types.UNVERIFIED, types.NewInt64(1, true), false},
+		{1, "private", "private universities", types.PENDING, types.NewInt64(2, true), false},
+		{2, "state", "it is an invalid example", types.UNKNOWN_STATUS, types.NewInt64(1, true), true},
+		{3, "private", "private universities", types.VERIFIED, types.NewInt64(-1, false), true},
 	}
 
-	for _, t := range tests {
+	for i, test := range tests {
 		model := TypeUniversity{
-			Name:        types.StringFrom(t.name),
-			Description: types.StringFrom(t.description),
-			IsVerified:  t.isVerified,
-			CreatedBy:   t.createdBy}
+			Name:        types.StringFrom(test.name),
+			Description: types.StringFrom(test.description),
+			IsVerified:  test.isVerified,
+			CreatedBy:   test.createdBy}
 
 		err := model.Validate()
-		if t.expectedError {
-			assert.Error(err, model)
+		if test.expectedError {
+			assert.Error(err, utils.FailedTest(i))
 		} else {
-			assert.NoError(err, model)
+			assert.NoError(err, utils.FailedTest(i))
 		}
 	}
 }

@@ -1,11 +1,12 @@
 package api
 
 import (
+	"github.com/QOSQOs/UNIVeasier/pkg/app/typeUniversityService"
+
 	"encoding/json"
 	"net/http"
 	"strconv"
 
-	"github.com/QOSQOs/UNIVeasier/pkg/app/typeUniversityService"
 	"github.com/gorilla/mux"
 )
 
@@ -27,16 +28,16 @@ func (s *Server) getTypeUniversityById(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusNotFound)
 	}
 
-	record, err := typeUniversityService.GetTypeUniversityById(s.Conn, int64(id))
+	typeUniversity, err := typeUniversityService.GetTypeUniversityById(s.Conn, int64(id))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	response, err := json.Marshal(record)
+	response, err := json.Marshal(typeUniversity)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -48,13 +49,13 @@ func (s *Server) getTypeUniversityById(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) getListTypeUniversity(w http.ResponseWriter, r *http.Request) {
-	records, err := typeUniversityService.GetListTypeUniversity(s.Conn)
+	typeUniversityList, err := typeUniversityService.GetListTypeUniversity(s.Conn)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	response, err := json.Marshal(records)
+	response, err := json.Marshal(typeUniversityList)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -65,7 +66,3 @@ func (s *Server) getListTypeUniversity(w http.ResponseWriter, r *http.Request) {
 	w.Write(response)
 }
 
-// should we delete a register or only disable it?
-func (s *Server) deleteTypeUniversityById(w http.ResponseWriter, r *http.Request) {
-	return
-}
