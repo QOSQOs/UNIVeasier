@@ -3,47 +3,48 @@ package model
 import (
 	"testing"
 
-	"github.com/QOSQOs/UNIVeasier/pkg/model/common"
+	"github.com/QOSQOs/UNIVeasier/internal/utils"
 	"github.com/QOSQOs/UNIVeasier/pkg/model/types"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestValidationPerson(t *testing.T) {
+func TestValidation(t *testing.T) {
 	assert := assert.New(t)
 
 	var tests = []struct {
+		numberTest    int8
 		firstName     string
 		lastName      string
 		email         string
-		gender        common.Gender
-		typePerson    common.TypePerson
-		isVerified    common.InstanceStatus
+		gender        types.Gender
+		typePerson    types.Person
+		isVerified    types.Status
 		expectedError bool
 	}{
-		{"juan gabriel", "quispe soto", "juan10@qosqo.com", 0, 0, 0, false},
-		{"pepe", "ramirez", "pepe@univeasier.net", 1, 1, 1, false},
-		{"juan gabriel", "quispe soto", "juan10@qosqo.com", 6, 7, 0, true},
-		{"pepe", "ramirez", "pepe@univeasier.net", 1, 2, -2, true},
-		{"", "diaz", "a@pe.edu", -1, 2, 5, true},
-		{"luis10", "quispe", "a@pe.edu", 6, 7, 8, true},
-		{"juan dany paul", "quispe lana", "a@pe.edu", 2, 2, 2, false},
-		{"gabriel soto", "", "gabi@pe.edu1", -1, -2, -3, true},
+		{1, "juan gabriel", "quispe soto", "juan@qosqo.com", types.MALE, types.STUDENT, types.UNVERIFIED, false},
+		{2, "juana", "ramirez", "juana10@univeasier.net", types.FEMALE, types.VISITOR, types.PENDING, false},
+		{3, "gabriel10", "quispe soto", "juan10@qosqo.com", types.MALE, types.GRADUATED, types.PENDING, true},
+		{4, "pepe", "ramirez 123", "pepe@univeasier.net", types.MALE, types.GRADUATED, types.PENDING, true},
+		{5, "pepe", "diaz", "a@pe-.12edu", types.MALE, types.GRADUATED, types.PENDING, true},
+		{6, "luis", "quispe", "a@pe.edu", types.UNKNOWN_GENDER, types.VISITOR, types.PENDING, true},
+		{7, "juan dany paul", "quispe lana", "a@pe.edu", types.FEMALE, types.UNKNOWN_PERSON, types.VERIFIED, true},
+		{8, "gabriel soto", "castro", "gabi@pe.edu", types.FEMALE, types.UNKNOWN_PERSON, types.UNKNOWN_STATUS, true},
 	}
 
-	for _, t := range tests {
-		model := Person{
-			FirstName:  types.StringFrom(t.firstName),
-			LastName:   types.StringFrom(t.lastName),
-			Email:      types.StringFrom(t.email),
-			Gender:     t.gender,
-			Type:       t.typePerson,
-			IsVerified: t.isVerified}
+	for i, test := range tests {
+		personModel := Person{
+			FirstName:  types.StringFrom(test.firstName),
+			LastName:   types.StringFrom(test.lastName),
+			Email:      types.StringFrom(test.email),
+			Gender:     test.gender,
+			Type:       test.typePerson,
+			IsVerified: test.isVerified}
 
-		err := model.Validate()
-		if t.expectedError {
-			assert.Error(err, model)
+		err := personModel.Validate()
+		if test.expectedError {
+			assert.Error(err, utils.FailedTest(i))
 		} else {
-			assert.NoError(err, model)
+			assert.NoError(err, utils.FailedTest(i))
 		}
 	}
 }

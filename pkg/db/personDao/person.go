@@ -1,10 +1,11 @@
 package personDao
 
 import (
-	"database/sql"
-
 	"github.com/QOSQOs/UNIVeasier/internal/common"
+	"github.com/QOSQOs/UNIVeasier/internal/utils"
 	"github.com/QOSQOs/UNIVeasier/pkg/model"
+
+	"database/sql"
 )
 
 func AddPerson(conn *sql.DB, m model.Person) error {
@@ -14,7 +15,7 @@ func AddPerson(conn *sql.DB, m model.Person) error {
 		m.CreatedDate, m.LastModifiedDate)
 
 	if err != nil {
-		common.Log.Errorw("The query cannot be done", "info", err.Error())
+		common.Log.Errorw(utils.FailedSQLQuery("InsertPerson"), "info", err.Error())
 		return err
 	}
 	return nil
@@ -28,21 +29,20 @@ func GetPersonById(conn *sql.DB, id int64) (model.Person, error) {
 		&m.CreatedDate, &m.LastModifiedDate)
 
 	if err != nil {
-		common.Log.Errorw("The query cannot be done", "info", err.Error())
+		common.Log.Errorw(utils.FailedSQLQuery("GetPersonById"), "info", err.Error())
 		return model.Person{}, err
 	}
 	return m, nil
 }
 
 func GetListPerson(conn *sql.DB) ([]model.Person, error) {
-	// Execute query to return many registries
 	res, err := conn.Query("call GetListPerson()")
 	if err != nil {
-		common.Log.Errorw("The query cannot be done", "info", err.Error())
+		common.Log.Errorw(utils.FailedSQLQuery("GetListPerson"), "info", err.Error())
 		return nil, err
 	}
 
-	var listModel []model.Person
+	var personList []model.Person
 	for res.Next() {
 		var m model.Person
 		err = res.Scan(
@@ -54,8 +54,8 @@ func GetListPerson(conn *sql.DB) ([]model.Person, error) {
 			common.Log.Errorw("The record cannot be read", "info", err.Error())
 			return nil, err
 		}
-		listModel = append(listModel, m)
+		personList = append(personList, m)
 	}
 
-	return listModel, nil
+	return personList, nil
 }
