@@ -1,9 +1,5 @@
 DELIMITER //
 
-/*
-  Insert a new record for the Person Table if the _id parameter is null,
-  otherwise, the record already exist and we only need to update it.
-*/
 CREATE PROCEDURE dbqosqos.InsertPerson(
   _id INT,
   _code VARCHAR(50),
@@ -56,18 +52,12 @@ BEGIN
   END IF;
 END //
 
-/*
-  Get a Person record by its _id
-*/
 CREATE PROCEDURE dbqosqos.GetPersonById(_id INT)
 BEGIN
     SELECT * FROM dbqosqos.person 
     WHERE id = _id;
 END //
 
-/*
-  Get a Person record by its _id
-*/
 CREATE PROCEDURE dbqosqos.GetListPerson()
 BEGIN
     SELECT * FROM dbqosqos.person;

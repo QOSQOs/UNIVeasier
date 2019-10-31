@@ -1,9 +1,5 @@
 DELIMITER //
 
-/*
-  Insert a new record for the TypeUniversity Table if the _id parameter is null,
-  otherwise, the record already exist and we only need to update it.
-*/
 CREATE PROCEDURE dbqosqos.InsertTypeUniversity(
   _id INT,
   _name VARCHAR(200),
@@ -32,18 +28,12 @@ BEGIN
   END IF;
 END //
 
-/*
-  Get a TypeUniversity record by its _id
-*/
 CREATE PROCEDURE dbqosqos.GetTypeUniversityById(_id INT)
 BEGIN
     SELECT * FROM dbqosqos.type_university 
     WHERE id = _id;
 END //
 
-/*
-  Get a TypeUniversity record by its _id
-*/
 CREATE PROCEDURE dbqosqos.GetListTypeUniversity()
 BEGIN
     SELECT * FROM dbqosqos.type_university;
