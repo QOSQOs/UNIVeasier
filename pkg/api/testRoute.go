@@ -4,19 +4,13 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/QOSQOs/UNIVeasier/pkg/app"
+	"github.com/QOSQOs/UNIVeasier/pkg/app/testService"
 	"github.com/gorilla/mux"
 )
 
-func (s *Server) RoutesTest() {
-	s.Router.HandleFunc("/test/{name}", s.getTest).Methods("GET")
-	s.Router.HandleFunc("/test", s.getListTest).Methods("GET")
-	s.Router.HandleFunc("/test", s.addTest).Methods("POST")
-}
-
 func (s *Server) getTest(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	test, err := app.ServiceGetTest(s.Conn, vars["name"])
+	test, err := testService.GetTest(s.Conn, vars["name"])
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -34,7 +28,7 @@ func (s *Server) getTest(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) getListTest(w http.ResponseWriter, r *http.Request) {
-	tests, err := app.ServiceGetListTest(s.Conn)
+	tests, err := testService.GetListTest(s.Conn)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -52,7 +46,7 @@ func (s *Server) getListTest(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) addTest(w http.ResponseWriter, r *http.Request) {
-	err := app.ServiceAddTest(s.Conn, r.Body)
+	err := testService.AddTest(s.Conn, r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
