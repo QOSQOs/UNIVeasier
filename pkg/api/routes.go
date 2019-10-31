@@ -2,11 +2,11 @@ package api
 
 /* The routes for basic methods look like following:
 
-/person/{ID} GET a <record> by its ID
-/person/{ID}  DELETE a <record> by its ID
-/person  POST add a <record>
-/person  PUT update a <record>
-/person  GET list all <records> */
+/<model>/{ID} GET a <record> by its ID
+/<model>/{ID}  DELETE a <record> by its ID
+/<model>  POST add a <record>
+/<model>  PUT update a <record>
+/<model>  GET list all <records> */
 
 func (s *Server) RoutesTest() {
 	// Test routes
@@ -16,7 +16,6 @@ func (s *Server) RoutesTest() {
 
 	// Person routes
 	s.Router.HandleFunc("/person/{id}", s.getPersonById).Methods("GET")
-	s.Router.HandleFunc("/person/{id}", s.deletePersonById).Methods("DELETE")
 	s.Router.HandleFunc("/person", s.getListPerson).Methods("GET")
 	s.Router.HandleFunc("/person", s.addPerson).Methods("POST")
 }
