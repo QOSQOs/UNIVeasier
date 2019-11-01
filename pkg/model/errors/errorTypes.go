@@ -51,3 +51,20 @@ type InvalidPersonIndiceError struct {
 func (e *InvalidPersonIndiceError) Error() string {
 	return fmt.Sprintf("Could not find a person type associated with the index %d", e.PersonIndice)
 }
+
+type OverflowError struct {
+	Type string
+}
+
+func (e *OverflowError) Error() string {
+	return fmt.Sprintf("Overflow error converting value to data type %q", e.Type)
+}
+
+type InvalidTypeError struct {
+	ExpectedType string
+	Type         string
+}
+
+func (e *InvalidTypeError) Error() string {
+	return fmt.Sprintf("Cannot convert %q to %q", e.Type, e.ExpectedType)
+}
