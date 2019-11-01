@@ -16,8 +16,8 @@ CREATE PROCEDURE dbqosqos.InsertCareer(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.career(id, acronym, name, description, logo, is_verified, doc_verifier, reference, created_date, last_modified_date, faculty_id, album_id, created_by) VALUES 
-    (_id, _acronym, _name, _description, _logo, _is_verified, _doc_verifier, _reference, _created_date, _last_modified_date, _faculty_id, _album_id, _created_by);
+    INSERT INTO dbqosqos.career(acronym, name, description, logo, is_verified, doc_verifier, reference, created_date, last_modified_date, faculty_id, album_id, created_by) VALUES 
+    (_acronym, _name, _description, _logo, _is_verified, _doc_verifier, _reference, _created_date, _last_modified_date, _faculty_id, _album_id, _created_by);
   ELSE
     UPDATE dbqosqos.career
     SET

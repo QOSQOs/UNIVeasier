@@ -15,8 +15,8 @@ CREATE PROCEDURE dbqosqos.InsertSchedule(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.schedule(id, start, end, day, room, type_lesson, is_verified, doc_verifier, created_date, last_modified_date, course_id, created_by) VALUES 
-    (_id, _start, _end, _day, _room, _type_lesson, _is_verified, _doc_verifier, _created_date, _last_modified_date, _course_id, _created_by);
+    INSERT INTO dbqosqos.schedule(start, end, day, room, type_lesson, is_verified, doc_verifier, created_date, last_modified_date, course_id, created_by) VALUES 
+    (_start, _end, _day, _room, _type_lesson, _is_verified, _doc_verifier, _created_date, _last_modified_date, _course_id, _created_by);
   ELSE
     UPDATE dbqosqos.schedule
     SET

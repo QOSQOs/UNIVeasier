@@ -18,4 +18,9 @@ func (s *Server) RoutesTest() {
 	s.Router.HandleFunc("/person/{id}", s.getPersonById).Methods("GET")
 	s.Router.HandleFunc("/person", s.getListPerson).Methods("GET")
 	s.Router.HandleFunc("/person", s.addPerson).Methods("POST")
+
+	// TypeUniversity routes
+	s.Router.HandleFunc("/typeUniversity/{id}", s.getTypeUniversityById).Methods("GET")
+	s.Router.HandleFunc("/typeUniversity", s.getListTypeUniversity).Methods("GET")
+	s.Router.HandleFunc("/typeUniversity", s.addTypeUniversity).Methods("POST")
 }

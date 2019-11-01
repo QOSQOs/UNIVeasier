@@ -12,8 +12,8 @@ CREATE PROCEDURE dbqosqos.InsertEnrollment(
   _course_id INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.enrollment(id, status, grade, is_verified, doc_verifier, created_date, last_modified_date, person_id, course_id) VALUES 
-    (_id, _status, _grade, _is_verified, _doc_verifier, _created_date, _last_modified_date, _person_id, _course_id);
+    INSERT INTO dbqosqos.enrollment(status, grade, is_verified, doc_verifier, created_date, last_modified_date, person_id, course_id) VALUES 
+    (_status, _grade, _is_verified, _doc_verifier, _created_date, _last_modified_date, _person_id, _course_id);
   ELSE
     UPDATE dbqosqos.enrollment
     SET

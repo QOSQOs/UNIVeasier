@@ -14,8 +14,8 @@ CREATE PROCEDURE dbqosqos.InsertTypeCourse(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.type_course(id, acronym, name, description, is_verified, doc_verifier, created_date, last_modified_date, required_credits, career_id, created_by) VALUES 
-    (_id, _acronym, _name, _description, _is_verified, _doc_verifier, _created_date, _last_modified_date, _required_credits, _career_id, _created_by);
+    INSERT INTO dbqosqos.type_course(acronym, name, description, is_verified, doc_verifier, created_date, last_modified_date, required_credits, career_id, created_by) VALUES 
+    (_acronym, _name, _description, _is_verified, _doc_verifier, _created_date, _last_modified_date, _required_credits, _career_id, _created_by);
   ELSE
     UPDATE dbqosqos.type_course
     SET

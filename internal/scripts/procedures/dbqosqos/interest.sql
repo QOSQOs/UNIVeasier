@@ -9,8 +9,8 @@ CREATE PROCEDURE dbqosqos.InsertInterest(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.interest(id, tag, is_skill, created_date, last_modified_date, created_by) VALUES 
-    (_id, _tag, _is_skill, _created_date, _last_modified_date, _created_by);
+    INSERT INTO dbqosqos.interest(tag, is_skill, created_date, last_modified_date, created_by) VALUES 
+    (_tag, _is_skill, _created_date, _last_modified_date, _created_by);
   ELSE
     UPDATE dbqosqos.interest
     SET

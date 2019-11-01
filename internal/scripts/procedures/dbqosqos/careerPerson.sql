@@ -10,8 +10,8 @@ CREATE PROCEDURE dbqosqos.InsertCareerPerson(
   _last_modified_date DATE)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.career_person(id, career_id, person_id, is_verified, doc_verifier, created_date, last_modified_date) VALUES 
-    (_id, _career_id, _person_id, _is_verified, _doc_verifier, _created_date, _last_modified_date);
+    INSERT INTO dbqosqos.career_person(career_id, person_id, is_verified, doc_verifier, created_date, last_modified_date) VALUES 
+    (_career_id, _person_id, _is_verified, _doc_verifier, _created_date, _last_modified_date);
   ELSE
     UPDATE dbqosqos.career_person
     SET

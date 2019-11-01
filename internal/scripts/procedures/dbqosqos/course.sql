@@ -21,8 +21,8 @@ CREATE PROCEDURE dbqosqos.InsertCourse(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.course(id, code, name, description, credits, batch, year, period, semester, total_hours, is_verified, doc_verifier, created_date, last_modified_date, type_course_id, career_id, professor_id, created_by) VALUES 
-    (_id, _code, _name, _description, _credits, _batch, _year, _period, _semester, _total_hours, _is_verified, _doc_verifier, _created_date, _last_modified_date, _type_course_id, _career_id, _professor_id, _created_by);
+    INSERT INTO dbqosqos.course(code, name, description, credits, batch, year, period, semester, total_hours, is_verified, doc_verifier, created_date, last_modified_date, type_course_id, career_id, professor_id, created_by) VALUES 
+    (_code, _name, _description, _credits, _batch, _year, _period, _semester, _total_hours, _is_verified, _doc_verifier, _created_date, _last_modified_date, _type_course_id, _career_id, _professor_id, _created_by);
   ELSE
     UPDATE dbqosqos.course
     SET

@@ -14,8 +14,8 @@ CREATE PROCEDURE dbqosqos.InsertFaculty(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.faculty(id, acronym, name, description, logo, is_verified, doc_verifier, created_date, last_modified_date, university_id, created_by) VALUES 
-    (_id, _acronym, _name, _description, _logo, _is_verified, _doc_verifier, _created_date, _last_modified_date, _university_id, _created_by);
+    INSERT INTO dbqosqos.faculty(acronym, name, description, logo, is_verified, doc_verifier, created_date, last_modified_date, university_id, created_by) VALUES 
+    (_acronym, _name, _description, _logo, _is_verified, _doc_verifier, _created_date, _last_modified_date, _university_id, _created_by);
   ELSE
     UPDATE dbqosqos.faculty
     SET

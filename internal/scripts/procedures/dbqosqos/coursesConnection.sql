@@ -13,8 +13,8 @@ CREATE PROCEDURE dbqosqos.InsertCoursesConnection(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.courses_connection(id, year, period, threshold_credits, child_course, parent_course, created_date, last_modified_date, career_id, created_by) VALUES 
-    (_id, _year, _period, _threshold_credits, _child_course, _parent_course, _created_date, _last_modified_date, _career_id, _created_by);
+    INSERT INTO dbqosqos.courses_connection(year, period, threshold_credits, child_course, parent_course, created_date, last_modified_date, career_id, created_by) VALUES 
+    (_year, _period, _threshold_credits, _child_course, _parent_course, _created_date, _last_modified_date, _career_id, _created_by);
   ELSE
     UPDATE dbqosqos.courses_connection
     SET

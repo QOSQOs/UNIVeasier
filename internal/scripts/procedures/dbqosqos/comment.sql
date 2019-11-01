@@ -11,8 +11,8 @@ CREATE PROCEDURE dbqosqos.InsertComment(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.comment(id, content, likes, dislikes, created_date, last_modified_date, story_id, created_by) VALUES 
-    (_id, _content, _likes, _dislikes, _created_date, _last_modified_date, _story_id, _created_by);
+    INSERT INTO dbqosqos.comment(content, likes, dislikes, created_date, last_modified_date, story_id, created_by) VALUES 
+    (_content, _likes, _dislikes, _created_date, _last_modified_date, _story_id, _created_by);
   ELSE
     UPDATE dbqosqos.comment
     SET

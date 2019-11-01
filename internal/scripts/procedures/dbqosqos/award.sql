@@ -16,8 +16,8 @@ CREATE PROCEDURE dbqosqos.InsertAward(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.award(id, year, period, description, event, place, is_verified, doc_verifier, created_date, last_modified_date, career_id, album_id, created_by) VALUES 
-    (_id, _year, _period, _description, _event, _place, _is_verified, _doc_verifier, _created_date, _last_modified_date, _career_id, _album_id, _created_by);
+    INSERT INTO dbqosqos.award(year, period, description, event, place, is_verified, doc_verifier, created_date, last_modified_date, career_id, album_id, created_by) VALUES 
+    (_year, _period, _description, _event, _place, _is_verified, _doc_verifier, _created_date, _last_modified_date, _career_id, _album_id, _created_by);
   ELSE
     UPDATE dbqosqos.award
     SET

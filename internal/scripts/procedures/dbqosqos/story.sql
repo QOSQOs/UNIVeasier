@@ -17,8 +17,8 @@ CREATE PROCEDURE dbqosqos.InsertStory(
   _career_id INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.story(id, title, body, recommended, unrecommended, views, is_verified, doc_verifier, allow_comments, layer, created_date, last_modified_date, created_by, career_id) VALUES 
-    (_id, _title, _body, _recommended, _unrecommended, _views, _is_verified, _doc_verifier, _allow_comments, _layer, _created_date, _last_modified_date, _created_by, _career_id);
+    INSERT INTO dbqosqos.story(title, body, recommended, unrecommended, views, is_verified, doc_verifier, allow_comments, layer, created_date, last_modified_date, created_by, career_id) VALUES 
+    (_title, _body, _recommended, _unrecommended, _views, _is_verified, _doc_verifier, _allow_comments, _layer, _created_date, _last_modified_date, _created_by, _career_id);
   ELSE
     UPDATE dbqosqos.story
     SET
