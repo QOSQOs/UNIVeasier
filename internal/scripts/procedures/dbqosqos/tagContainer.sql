@@ -16,8 +16,8 @@ CREATE PROCEDURE dbqosqos.InsertTagContainer(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.tag_container(id, tag, agree, disagree, reference, type, layer, created_date, last_modified_date, is_verified, doc_verifier, career_id, created_by) VALUES 
-    (_id, _tag, _agree, _disagree, _reference, _type, _layer, _created_date, _last_modified_date, _is_verified, _doc_verifier, _career_id, _created_by);
+    INSERT INTO dbqosqos.tag_container(tag, agree, disagree, reference, type, layer, created_date, last_modified_date, is_verified, doc_verifier, career_id, created_by) VALUES 
+    (_tag, _agree, _disagree, _reference, _type, _layer, _created_date, _last_modified_date, _is_verified, _doc_verifier, _career_id, _created_by);
   ELSE
     UPDATE dbqosqos.tag_container
     SET

@@ -9,8 +9,8 @@ CREATE PROCEDURE dbqosqos.InsertAlbum(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.album(id, name, description, created_date, last_modified_date, created_by) VALUES 
-    (_id, _name, _description, _created_date, _last_modified_date, _created_by);
+    INSERT INTO dbqosqos.album(name, description, created_date, last_modified_date, created_by) VALUES 
+    (_name, _description, _created_date, _last_modified_date, _created_by);
   ELSE
     UPDATE dbqosqos.album
     SET

@@ -23,7 +23,7 @@ func (tu *TypeUniversity) Validate() error {
 	}
 
 	if !tu.CreatedBy.Valid {
-		return &errors.NullValueNotAllowed{"CreatedBy"}
+		return &errors.NullValueNotAllowedError{"CreatedBy"}
 	}
 	return nil
 }

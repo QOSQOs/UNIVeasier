@@ -36,7 +36,7 @@ func (s *Server) getPersonById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response, err := json.Marshal(person)
+	response, err := json.Marshal(&person)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

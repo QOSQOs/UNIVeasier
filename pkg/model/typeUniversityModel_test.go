@@ -20,10 +20,10 @@ func TestValidationTypeUniversity(t *testing.T) {
 		createdBy     types.Int64
 		expectedError bool
 	}{
-		{0, "public", "public universities", types.UNVERIFIED, types.NewInt64(1, true), false},
-		{1, "private", "private universities", types.PENDING, types.NewInt64(2, true), false},
-		{2, "state", "it is an invalid example", types.UNKNOWN_STATUS, types.NewInt64(1, true), true},
-		{3, "private", "private universities", types.VERIFIED, types.NewInt64(-1, false), true},
+		{0, "public", "public universities", types.UNVERIFIED, types.Int64From(1), false},
+		{1, "private", "private universities", types.PENDING, types.Int64From(2), false},
+		{2, "state", "it is an invalid example", types.UNKNOWN_STATUS, types.Int64From(1), true},
+		{3, "private", "private universities", types.VERIFIED, types.NullInt64(), true},
 	}
 
 	for i, test := range tests {

@@ -21,8 +21,8 @@ CREATE PROCEDURE dbqosqos.InsertUniversity(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.university(id, local_rank, global_rank, acronym, name, region, description, latitude, longitude, logo, is_verified, doc_verifier, reference, type_university_id, album_id, created_date, last_modified_date, created_by) VALUES 
-    (_id, _local_rank, _global_rank, _acronym, _name, _region, _description, _latitude, _longitude, _logo, _is_verified, _doc_verifier, _reference, _type_university_id, _album_id, _created_date, _last_modified_date, _created_by);
+    INSERT INTO dbqosqos.university(local_rank, global_rank, acronym, name, region, description, latitude, longitude, logo, is_verified, doc_verifier, reference, type_university_id, album_id, created_date, last_modified_date, created_by) VALUES 
+    (_local_rank, _global_rank, _acronym, _name, _region, _description, _latitude, _longitude, _logo, _is_verified, _doc_verifier, _reference, _type_university_id, _album_id, _created_date, _last_modified_date, _created_by);
   ELSE
     UPDATE dbqosqos.university
     SET

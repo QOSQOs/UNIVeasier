@@ -10,8 +10,8 @@ CREATE PROCEDURE dbqosqos.InsertPhoto(
   _created_by INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.photo(id, pic, description, created_date, last_modified_date, album_id, created_by) VALUES 
-    (_id, _pic, _description, _created_date, _last_modified_date, _album_id, _created_by);
+    INSERT INTO dbqosqos.photo(pic, description, created_date, last_modified_date, album_id, created_by) VALUES 
+    (_pic, _description, _created_date, _last_modified_date, _album_id, _created_by);
   ELSE
     UPDATE dbqosqos.photo
     SET

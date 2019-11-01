@@ -37,7 +37,7 @@ func (s *Server) getTypeUniversityById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response, err := json.Marshal(typeUniversity)
+	response, err := json.Marshal(&typeUniversity)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -65,4 +65,3 @@ func (s *Server) getListTypeUniversity(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }
-

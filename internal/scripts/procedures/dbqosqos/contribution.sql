@@ -9,8 +9,8 @@ CREATE PROCEDURE dbqosqos.InsertContribution(
   _person_id INT)
 BEGIN
   IF _id IS NULL THEN
-    INSERT INTO dbqosqos.contribution(id, score, description, created_date, last_modified_date, person_id) VALUES 
-    (_id, _score, _description, _created_date, _last_modified_date, _person_id);
+    INSERT INTO dbqosqos.contribution(score, description, created_date, last_modified_date, person_id) VALUES 
+    (_score, _description, _created_date, _last_modified_date, _person_id);
   ELSE
     UPDATE dbqosqos.contribution
     SET
