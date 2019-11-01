@@ -38,7 +38,7 @@ func (text *String) UnmarshalJSON(data []byte) error {
 	case nil:
 		text.Valid = false
 	default:
-		return &errors.InvalidTypeError{"string", reflect.TypeOf(value).Name()}
+		return &errors.InvalidTypeError{"String", reflect.TypeOf(value).Name()}
 	}
 	return nil
 }

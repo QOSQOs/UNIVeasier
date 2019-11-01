@@ -41,7 +41,7 @@ func (number *Int64) UnmarshalJSON(data []byte) error {
 	case nil:
 		number.Valid = false
 	default:
-		return &errors.InvalidTypeError{"int64", reflect.TypeOf(value).Name()}
+		return &errors.InvalidTypeError{"Int64", reflect.TypeOf(value).Name()}
 	}
 	return nil
 }
