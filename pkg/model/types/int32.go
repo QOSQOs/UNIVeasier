@@ -3,75 +3,62 @@ package types
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"reflect"
-	"strconv"
+
+	"github.com/QOSQOs/UNIVeasier/pkg/model/errors"
 )
 
-// NullInt32 is an alias for sql.NullInt32 data type
 type Int32 struct {
 	sql.NullInt32
 }
 
-// MarshalJSON for NullInt64
-func (ni *Int32) MarshalJSON() ([]byte, error) {
-	if !ni.Valid {
-		return []byte("null"), nil
-	}
-	return json.Marshal(ni.Int32)
+func (number Int32) IsNull() bool {
+	return !number.Valid
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-// It supports number and null input.
-// 0 will not be considered a null Int.
-// It also supports unmarshalling a sql.NullInt32.
-func (ni *Int32) UnmarshalJSON(data []byte) error {
-	var err error
-	var val int64
-	var v interface{}
-	if err = json.Unmarshal(data, &v); err != nil {
+func (number *Int32) MarshalJSON() ([]byte, error) {
+	if !number.Valid {
+		return []byte(`null`), nil
+	}
+	return json.Marshal(number.Int32)
+}
+
+func (number *Int32) UnmarshalJSON(data []byte) error {
+	var i interface{}
+
+	err := json.Unmarshal(data, &i)
+	if err != nil {
 		return err
 	}
-	switch x := v.(type) {
-	case float32:
-		// Unmarshal again, directly to int32, to avoid intermediate float64
-		err = json.Unmarshal(data, &ni.Int32)
-	case string:
-		str := string(x)
-		if len(str) == 0 {
-			ni.Valid = false
-			return nil
+
+	switch value := i.(type) {
+	case float64:
+		err = json.Unmarshal(data, &number.Int32)
+		if err != nil {
+			return &errors.OverflowError{"Int32"}
 		}
-		val, err = strconv.ParseInt(str, 10, 32)
-		ni.Int32 = int32(val)
-	case map[string]interface{}:
-		err = json.Unmarshal(data, &ni.NullInt32)
+		number.Valid = true
 	case nil:
-		ni.Valid = false
-		return nil
+		number.Valid = false
 	default:
-		err = fmt.Errorf("json: cannot unmarshal %v into Go value of type null.Int", reflect.TypeOf(v).Name())
+		return &errors.InvalidTypeError{"int32", reflect.TypeOf(value).Name()}
 	}
-	ni.Valid = err == nil
-	return err
+	return nil
 }
 
-// IntFrom creates a new Int that will always be valid.
-func Int32From(i int32) Int32 {
-	return NewInt32(i, true)
+func Int32From(value int32) Int32 {
+	return newInt32(value, true)
 }
 
-// NewInt creates a new Int
-func NewInt32(i int32, valid bool) Int32 {
+func NullInt32() Int32 {
+	return newInt32(0, false)
+}
+
+func newInt32(value int32, valid bool) Int32 {
 	return Int32{
-		NullInt32: sql.NullInt32{
-			Int32: i,
+		sql.NullInt32{
+			Int32: value,
 			Valid: valid,
 		},
 	}
-}
-
-// IsZero returns true for invalid Ints
-func (ni Int32) IsNull() bool {
-	return !ni.Valid
 }

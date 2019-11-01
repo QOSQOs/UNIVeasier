@@ -3,63 +3,59 @@ package types
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"reflect"
+
+	"github.com/QOSQOs/UNIVeasier/pkg/model/errors"
 )
 
-// NullString is an alias for sql.NullString data type
 type String struct {
 	sql.NullString
 }
 
-// MarshalJSON for NullString
-func (ns *String) MarshalJSON() ([]byte, error) {
-	if !ns.Valid {
-		return []byte("null"), nil
-	}
-	return json.Marshal(ns.String)
+func (text String) IsNull() bool {
+	return !text.Valid
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-// It supports string and null input. Blank string input does not produce a null String.
-// It also supports unmarshalling a sql.NullString.
-func (ns *String) UnmarshalJSON(data []byte) error {
-	var err error
-	var v interface{}
-	if err = json.Unmarshal(data, &v); err != nil {
+func (text *String) MarshalJSON() ([]byte, error) {
+	if !text.Valid {
+		return []byte(`null`), nil
+	}
+	return json.Marshal(text.String)
+}
+
+func (text *String) UnmarshalJSON(data []byte) error {
+	var i interface{}
+
+	err := json.Unmarshal(data, &i)
+	if err != nil {
 		return err
 	}
-	switch x := v.(type) {
+
+	switch value := i.(type) {
 	case string:
-		ns.String = x
-	case map[string]interface{}:
-		err = json.Unmarshal(data, &ns.NullString)
+		text.String = value
+		text.Valid = true
 	case nil:
-		ns.Valid = false
-		return nil
+		text.Valid = false
 	default:
-		err = fmt.Errorf("json: cannot unmarshal %v into Go value of type null.String", reflect.TypeOf(v).Name())
+		return &errors.InvalidTypeError{"string", reflect.TypeOf(value).Name()}
 	}
-	ns.Valid = err == nil
-	return err
+	return nil
 }
 
-// IntFrom creates a new Int that will always be valid.
-func StringFrom(s string) String {
-	return NewString(s, true)
+func StringFrom(value string) String {
+	return newString(value, true)
 }
 
-// NewInt creates a new Int
-func NewString(s string, valid bool) String {
+func NullString() String {
+	return newString("", false)
+}
+
+func newString(value string, valid bool) String {
 	return String{
-		NullString: sql.NullString{
-			String: s,
+		sql.NullString{
+			String: value,
 			Valid:  valid,
 		},
 	}
-}
-
-// IsZero returns true for invalid Ints
-func (ns String) IsNull() bool {
-	return !ns.Valid
 }
