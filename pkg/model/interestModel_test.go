@@ -18,20 +18,20 @@ func TestValidationInterest(t *testing.T) {
 		createdBy     types.Int64
 		expectedError bool
 	}{
-		{0, types.NullString(), types.Int64From(1), true},
-		{1, types.StringFrom(""), types.Int64From(1), true},
-		{2, types.StringFrom("IA"), types.NullInt64(), true},
-		{3, types.StringFrom("IA"), types.Int64From(1), false},
-		{4, types.StringFrom(strings.Repeat("D", 101)), types.Int64From(1), true},
-		{5, types.StringFrom(strings.Repeat("D", 99)), types.Int64From(1), false},
+		{1, types.StringFrom("intership"), types.Int64From(1), false},
+		{2, types.StringFrom("intership"), types.NullInt64(), true},
+		{3, types.NullString(), types.Int64From(1), true},
+		{4, types.StringFrom(""), types.Int64From(1), true},
+		{5, types.StringFrom(strings.Repeat("a", 99)), types.Int64From(1), false},
+		{6, types.StringFrom(strings.Repeat("a", 101)), types.Int64From(1), true},
 	}
 
 	for i, test := range tests {
-		interestModel := Interest{
+		interesModel := Interest{
 			Tag:       test.tag,
 			CreatedBy: test.createdBy}
 
-		err := interestModel.Validate()
+		err := interesModel.Validate()
 		if test.expectedError {
 			assert.Error(err, utils.FailedTest(i))
 		} else {
