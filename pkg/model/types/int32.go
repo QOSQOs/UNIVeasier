@@ -1,11 +1,11 @@
 package types
 
 import (
+	"github.com/QOSQOs/UNIVeasier/pkg/model/errors"
+
 	"database/sql"
 	"encoding/json"
 	"reflect"
-
-	"github.com/QOSQOs/UNIVeasier/pkg/model/errors"
 )
 
 type Int32 struct {
@@ -41,7 +41,7 @@ func (number *Int32) UnmarshalJSON(data []byte) error {
 	case nil:
 		number.Valid = false
 	default:
-		return &errors.InvalidTypeError{"int32", reflect.TypeOf(value).Name()}
+		return &errors.InvalidTypeError{"Int32", reflect.TypeOf(value).Name()}
 	}
 	return nil
 }

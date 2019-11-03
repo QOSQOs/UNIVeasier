@@ -1,6 +1,8 @@
 package types
 
 import (
+	"github.com/QOSQOs/UNIVeasier/pkg/model/errors"
+
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -8,67 +10,60 @@ import (
 	"time"
 )
 
-// NullTime is an alias for mysql.NullTime data type
+const timeFormat = time.RFC3339
+
 type Time struct {
 	sql.NullTime
 }
 
-// MarshalJSON for NullTime
-func (nt *Time) MarshalJSON() ([]byte, error) {
-	if !nt.Valid {
-		return []byte("null"), nil
-	}
-	val := fmt.Sprintf("\"%s\"", nt.Time.Format(time.RFC3339))
-	return []byte(val), nil
+func (timestamp Time) IsNull() bool {
+	return !timestamp.Valid
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-// It supports string, object (e.g. pq.NullTime and friends)
-// and null input.
-func (nt *Time) UnmarshalJSON(data []byte) error {
-	var err error
-	var v interface{}
-	if err = json.Unmarshal(data, &v); err != nil {
+func (timestamp *Time) MarshalJSON() ([]byte, error) {
+	if !timestamp.Valid {
+		return []byte(`null`), nil
+	}
+	value := fmt.Sprintf("%q", timestamp.Time.Format(timeFormat))
+	return []byte(value), nil
+}
+
+func (timestamp *Time) UnmarshalJSON(data []byte) error {
+	var i interface{}
+
+	err := json.Unmarshal(data, &i)
+	if err != nil {
 		return err
 	}
-	switch x := v.(type) {
+
+	switch value := i.(type) {
 	case string:
-		err = nt.Time.UnmarshalJSON(data)
-	case map[string]interface{}:
-		ti, tiOK := x["Time"].(string)
-		valid, validOK := x["Valid"].(bool)
-		if !tiOK || !validOK {
-			return fmt.Errorf(`json: unmarshalling object into Go value of type null.Time requires key "Time" to be of type string and key "Valid" to be of type bool; found %T and %T, respectively`, x["Time"], x["Valid"])
+		timestamp.Time, err = time.Parse(timeFormat, value)
+		if err != nil {
+			return &errors.OverflowError{"Time"}
 		}
-		err = nt.Time.UnmarshalText([]byte(ti))
-		nt.Valid = valid
-		return err
+		timestamp.Valid = true
 	case nil:
-		nt.Valid = false
-		return nil
+		timestamp.Valid = false
 	default:
-		err = fmt.Errorf("json: cannot unmarshal %v into Go value of type null.Time", reflect.TypeOf(v).Name())
+		return &errors.InvalidTypeError{"Time", reflect.TypeOf(value).Name()}
 	}
-	nt.Valid = err == nil
-	return err
+	return nil
 }
 
-// IntFrom creates a new Int that will always be valid.
-func TimeFrom(t time.Time) Time {
-	return NewTime(t, true)
+func TimeFrom(value time.Time) Time {
+	return newTime(value, true)
 }
 
-// NewInt creates a new Int
-func NewTime(t time.Time, valid bool) Time {
+func NullTime() Time {
+	return newTime(time.Time{}, false)
+}
+
+func newTime(value time.Time, valid bool) Time {
 	return Time{
-		NullTime: sql.NullTime{
-			Time:  t,
+		sql.NullTime{
+			Time:  value,
 			Valid: valid,
 		},
 	}
-}
-
-// IsZero returns true for invalid Ints
-func (nt Time) IsNull() bool {
-	return !nt.Valid
 }
