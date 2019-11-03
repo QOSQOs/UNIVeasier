@@ -16,13 +16,13 @@ type TypeUniversity struct {
 	CreatedBy        types.Int64  `json:"created_by"`
 }
 
-func (tu *TypeUniversity) Validate() error {
-	err := tu.IsVerified.IsValid()
+func (m *TypeUniversity) Validate() error {
+	err := m.IsVerified.IsValid()
 	if err != nil {
 		return err
 	}
 
-	if tu.CreatedBy.IsNull() {
+	if m.CreatedBy.IsNull() {
 		return &errors.NullValueNotAllowedError{"CreatedBy"}
 	}
 	return nil

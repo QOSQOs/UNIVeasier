@@ -27,13 +27,13 @@ func TestValidationTypeUniversity(t *testing.T) {
 	}
 
 	for i, test := range tests {
-		model := TypeUniversity{
+		typeUniversityModel := TypeUniversity{
 			Name:        types.StringFrom(test.name),
 			Description: types.StringFrom(test.description),
 			IsVerified:  test.isVerified,
 			CreatedBy:   test.createdBy}
 
-		err := model.Validate()
+		err := typeUniversityModel.Validate()
 		if test.expectedError {
 			assert.Error(err, utils.FailedTest(i))
 		} else {
