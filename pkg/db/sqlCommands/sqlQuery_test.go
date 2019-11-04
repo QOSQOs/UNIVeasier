@@ -1,6 +1,7 @@
 package sqlCommands
 
 import (
+	"github.com/QOSQOs/UNIVeasier/internal/common"
 	"github.com/QOSQOs/UNIVeasier/internal/config"
 	"github.com/QOSQOs/UNIVeasier/internal/utils"
 	"github.com/QOSQOs/UNIVeasier/pkg/db/connection"
@@ -9,6 +10,7 @@ import (
 
 	"fmt"
 	"testing"
+	"time"
 )
 
 func TestInit(t *testing.T) {
@@ -188,5 +190,31 @@ func TestGetSQLQuery(t *testing.T) {
 
 		sqlQuery, _ := sqlQueryModel.GetSQLQuery()
 		assert.Equal(test.expectedSQLQuery, sqlQuery, utils.FailedTest(i))
+	}
+}
+
+func TestSQLColumnToString(t *testing.T) {
+	assert := assert.New(t)
+
+	timeTest, err := time.Parse(common.TimeFormat, "2019-11-01T15:04:05Z")
+	assert.NoError(err)
+
+	var testsColumns = []struct {
+		numberTest    int8
+		value         interface{}
+		expectedValue string
+	}{
+		{0, 1, `1`},
+		{1, 1.5, `1.5`},
+		{2, "value", `"value"`},
+		{3, true, `1`},
+		{4, false, `0`},
+		{5, timeTest, `"2019-11-01T15:04:05Z"`},
+	}
+
+	for i, test := range testsColumns {
+		sqlColumn := SQLColumn{value: test.value}
+		stringValue := sqlColumn.ToString()
+		assert.Equal(test.expectedValue, stringValue, utils.FailedTest(i))
 	}
 }

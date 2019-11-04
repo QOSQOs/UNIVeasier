@@ -8,7 +8,53 @@ import (
 	"github.com/QOSQOs/UNIVeasier/pkg/db/sqlCommands/sqlTypes"
 
 	"database/sql"
+	"fmt"
+	"time"
 )
+
+/*
+addFilter(colum string, value interface{})
+var SQLFilter(conn, table, queryType) validate querytype, table
+Columns("a", "b", "c", "d", ...) validate columns
+addfilter(a, >, 3) validate columns, op,
+addfilter(b, =, 1)
+addSetValue(b, 2) validate column
+addSetValue(c, false) validate column
+*/
+
+type SQLColumn struct {
+	name   string
+	value  interface{}
+	enable bool
+}
+
+func (col *SQLColumn) IsUsed() bool {
+	return col.enable
+}
+
+func (col *SQLColumn) ToString() string {
+	switch value := col.value.(type) {
+	case string:
+		return fmt.Sprintf("%q", value)
+	case bool:
+		boolValue := fmt.Sprintf("%v", value)
+		if boolValue == "true" {
+			return "1"
+		}
+		return "0"
+	case time.Time:
+		return fmt.Sprintf("%q", value.Format(common.TimeFormat))
+	default:
+		return fmt.Sprintf("%v", value)
+	}
+}
+
+type SQLQuery1 struct {
+	tableName   string
+	queryType   sqlTypes.SQLQueryTitle
+	columnNames map[string]SQLColumn
+	filters     []SQLFilter
+}
 
 type SQLQuery struct {
 	DBName            string
