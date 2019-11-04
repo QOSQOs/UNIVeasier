@@ -28,6 +28,7 @@ func GetInterestById(conn *sql.DB, id int64) (model.Interest, error) {
 		common.Log.Errorw(utils.FailedSQLQuery("GetInterestById"), "info", err.Error())
 		return model.Interest{}, err
 	}
+
 	return m, nil
 }
 
