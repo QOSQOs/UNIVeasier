@@ -33,33 +33,33 @@ type Person struct {
 	LastModifiedDate types.Time   `json:"last_modified_date"`
 }
 
-func (t *Person) Validate() error {
-	ok := lettersRegex.MatchString(t.FirstName.String)
-	if len(t.FirstName.String) == 0 || !ok {
-		return &errors.InvalidNameError{t.FirstName.String}
+func (m *Person) Validate() error {
+	ok := lettersRegex.MatchString(m.FirstName.String)
+	if len(m.FirstName.String) == 0 || !ok {
+		return &errors.InvalidNameError{m.FirstName.String}
 	}
 
-	ok = lettersRegex.MatchString(t.LastName.String)
-	if len(t.LastName.String) == 0 || !ok {
-		return &errors.InvalidLastNameError{t.LastName.String}
+	ok = lettersRegex.MatchString(m.LastName.String)
+	if len(m.LastName.String) == 0 || !ok {
+		return &errors.InvalidLastNameError{m.LastName.String}
 	}
 
-	ok = emailsRegex.MatchString(t.Email.String)
-	if len(t.Email.String) == 0 || !ok {
-		return &errors.InvalidEmailError{t.Email.String}
+	ok = emailsRegex.MatchString(m.Email.String)
+	if len(m.Email.String) == 0 || !ok {
+		return &errors.InvalidEmailError{m.Email.String}
 	}
 
-	err := t.Gender.IsValid()
+	err := m.Gender.IsValid()
 	if err != nil {
 		return err
 	}
 
-	err = t.Type.IsValid()
+	err = m.Type.IsValid()
 	if err != nil {
 		return err
 	}
 
-	err = t.IsVerified.IsValid()
+	err = m.IsVerified.IsValid()
 	if err != nil {
 		return err
 	}
