@@ -23,12 +23,12 @@ func (e *InvalidTypeError) Error() string {
 }
 
 type ValueNotExistError struct {
-	Value         string
-	ContainerName string
+	Value          string
+	CollectionName string
 }
 
 func (e *ValueNotExistError) Error() string {
-	return fmt.Sprintf("The value %q does not exist in the container: %q", e.Value, e.ContainerName)
+	return fmt.Sprintf("The value %q does not exist in the collection: %q", e.Value, e.CollectionName)
 }
 
 type TableNotExistError struct {
@@ -37,4 +37,13 @@ type TableNotExistError struct {
 
 func (e *TableNotExistError) Error() string {
 	return fmt.Sprintf("The table %q does not exist", e.NameTable)
+}
+
+type NotEqualsSizeError struct {
+	FirstCollection   string
+	SecondtCollection string
+}
+
+func (e *NotEqualsSizeError) Error() string {
+	return fmt.Sprintf("%q and %q does not have the same size", e.FirstCollection, e.SecondtCollection)
 }

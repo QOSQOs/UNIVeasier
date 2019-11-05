@@ -16,8 +16,11 @@ import (
 addFilter(colum string, value interface{})
 var SQLFilter(conn, table, queryType) validate querytype, table
 Columns("a", "b", "c", "d", ...) validate columns
-addfilter(a, >, 3) validate columns, op,
-addfilter(b, =, 1)
+
+addOrFilter(a, >, 3) validate columns, op,
+addAndFilter(b, =, 1,2,3,4)
+addFilter
+addOR
 addSetValue(b, 2) validate column
 addSetValue(c, false) validate column
 */
@@ -49,11 +52,113 @@ func (col *SQLColumn) ToString() string {
 	}
 }
 
+type SQLFilter1 struct {
+	logicalOperator sqlTypes.LogOperator
+	compOperator    sqlTypes.SQLOperator
+	sqlColumn       SQLColumn
+}
+
+func (filter *SQLFilter1) ToSTring() {
+	return fmt.Sprintf("")
+}
+
+func newFilter(logicOp sqlTypes.LogOperator, colName string, compOp sqlTypes.SQLOperator, val interface{}) (SQLFilter1, error) {
+	if err := logicOp.IsValid(); err != nil {
+		return SQLFilter1{}, err
+	}
+
+	if err := compOp.IsValid(); err != nil {
+		return SQLFilter1{}, err
+	}
+
+	sqlColumn := SQLColumn{name: colName, value: val}
+	return SQLFilter1{
+		logicalOperator: logicOp,
+		compOperator:    compOp,
+		sqlColumn:       sqlColumn,
+	}, nil
+}
+
 type SQLQuery1 struct {
 	tableName   string
 	queryType   sqlTypes.SQLQueryTitle
 	columnNames map[string]SQLColumn
 	filters     []SQLFilter
+}
+
+func (query *SQLQuery1) getColumns(conn *sql.DB, tableName string) error {
+	res, err := conn.Query("call GetColumnByTableName(?)", tableName)
+	if err != nil {
+		common.Log.Errorw(utils.FailedSQLQuery("GetColumnByTableName"), "info", err.Error())
+		return err
+	}
+
+	query.columnNames = make(map[string]SQLColumn)
+
+	for res.Next() {
+		var columnName string
+		err = res.Scan(&columnName)
+		if err != nil {
+			common.Log.Errorw("The record cannot be read", "info", err.Error())
+			return err
+		}
+		query.columnNames[columnName] = SQLColumn{name: columnName}
+	}
+
+	if len(query.columnNames) == 0 {
+		return &errors.TableNotExistError{tableName}
+	}
+
+	return nil
+}
+
+func (query *SQLQuery1) AddColumns(columnNames ...string) error {
+	for _, column := range columnNames {
+		if sqlColumn, ok := query.columnNames[column]; !ok {
+			sqlColumn.enable = true
+			query.columnNames[column] = sqlColumn
+
+		} else {
+			return &errors.ValueNotExistError{column, "ColumnNames"}
+		}
+	}
+	return nil
+}
+
+func (query *SQLQuery1) SetColumnValue(columnNames []string, values []interface{}) error {
+	if len(columnNames) != len(values) {
+		return &errors.NotEqualsSizeError{"column names", "values"}
+	}
+
+	for i, column := range columnNames {
+		if sqlColumn, ok := query.columnNames[column]; !ok {
+			sqlColumn.value = values[i]
+			query.columnNames[column] = sqlColumn
+
+		} else {
+			return &errors.ValueNotExistError{column, "ColumnNames"}
+		}
+	}
+	return nil
+}
+
+func NewQuery(conn *sql.DB, tableName, sqlQueryType string) (SQLQuery1, error) {
+	queryType, err := sqlTypes.ToSQLQueryTitle(sqlQueryType)
+	if err != nil {
+		return SQLQuery1{}, err
+	}
+
+	query := SQLQuery1{
+		tableName: tableName,
+		queryType: queryType,
+	}
+
+	err = query.getColumns(conn, tableName)
+	if err != nil {
+		return SQLQuery1{}, err
+	}
+
+	return query, nil
 }
 
 type SQLQuery struct {
