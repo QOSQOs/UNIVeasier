@@ -1,11 +1,11 @@
-package sqlCommands
+package sqlComponents
 
 import (
 	"github.com/QOSQOs/UNIVeasier/internal/common"
 	"github.com/QOSQOs/UNIVeasier/internal/config"
 	"github.com/QOSQOs/UNIVeasier/internal/utils"
 	"github.com/QOSQOs/UNIVeasier/pkg/db/connection"
-	"github.com/QOSQOs/UNIVeasier/pkg/db/sqlCommands/sqlTypes"
+	"github.com/QOSQOs/UNIVeasier/pkg/db/sqlComponents/sqlTypes"
 	"github.com/stretchr/testify/assert"
 
 	"fmt"
@@ -94,7 +94,7 @@ func TestAddFilter(t *testing.T) {
 			ValuesAreString: false}, true},
 		{2, SQLFilter{
 			ColumnName:      "column",
-			Op:              sqlTypes.UNKNOWN_OPERATOR,
+			Op:              sqlTypes.UNKNOWN_COMPARATOR,
 			Values:          []string{"1", "2"},
 			ValuesAreString: false}, true},
 	}
@@ -123,7 +123,7 @@ func TestGetFilterExpressions(t *testing.T) {
 	}{
 		{0, []SQLFilter{
 			SQLFilter{
-				Link:            sqlTypes.UNKNOWN_LOG_OPERATOR,
+				Link:            sqlTypes.UNKNOWN_LOGICAL,
 				ColumnName:      "id",
 				Op:              sqlTypes.EQUAL,
 				Values:          []string{"1"},
@@ -155,7 +155,7 @@ func TestGetSQLQuery(t *testing.T) {
 
 	sqlFilters := []SQLFilter{
 		SQLFilter{
-			Link:            sqlTypes.UNKNOWN_LOG_OPERATOR,
+			Link:            sqlTypes.UNKNOWN_LOGICAL,
 			ColumnName:      "id",
 			Op:              sqlTypes.EQUAL,
 			Values:          []string{"1"},
@@ -169,7 +169,7 @@ func TestGetSQLQuery(t *testing.T) {
 
 	tests := []struct {
 		numberTest       int8
-		queryType        sqlTypes.SQLQueryTitle
+		queryType        sqlTypes.SQLOperator
 		columnsName      map[string]bool
 		expectedSQLQuery string
 	}{

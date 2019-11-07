@@ -1,15 +1,15 @@
-package sqlCommands
+package sqlComponents
 
 import (
 	"github.com/QOSQOs/UNIVeasier/internal/common/marks"
 	"github.com/QOSQOs/UNIVeasier/pkg/db/errors"
-	"github.com/QOSQOs/UNIVeasier/pkg/db/sqlCommands/sqlTypes"
+	"github.com/QOSQOs/UNIVeasier/pkg/db/sqlComponents/sqlTypes"
 )
 
 type SQLFilter struct {
-	Link            sqlTypes.LogOperator
+	Link            sqlTypes.SQLLogical
 	ColumnName      string
-	Op              sqlTypes.SQLOperator
+	Op              sqlTypes.SQLComparator
 	Values          []string
 	ValuesAreString bool
 }

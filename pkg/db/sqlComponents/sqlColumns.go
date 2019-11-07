@@ -1,4 +1,4 @@
-package sqlCommands
+package sqlComponents
 
 const (
 	PERSON_ID               = "id"

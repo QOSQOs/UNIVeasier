@@ -1,8 +1,8 @@
-package sqlCommands
+package sqlComponents
 
 import (
 	"github.com/QOSQOs/UNIVeasier/internal/utils"
-	"github.com/QOSQOs/UNIVeasier/pkg/db/sqlCommands/sqlTypes"
+	"github.com/QOSQOs/UNIVeasier/pkg/db/sqlComponents/sqlTypes"
 	"github.com/stretchr/testify/assert"
 
 	"testing"
@@ -15,7 +15,7 @@ func TestGetFilterExpression(t *testing.T) {
 		numberTest            int8
 		column                string
 		valuesAreString       bool
-		op                    sqlTypes.SQLOperator
+		op                    sqlTypes.SQLComparator
 		values                []string
 		expectedSQLExpression string
 	}{
