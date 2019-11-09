@@ -151,6 +151,7 @@ func (query *SQLQuery) getHeaders() (string, error) {
 			return "*", nil
 		}
 		headerExpression = headerExpression[:len(headerExpression)-1]
+		break
 	case sqlTypes.UPDATE:
 		for _, column := range query.columnNames {
 			if column.IsUsed() {
@@ -161,12 +162,14 @@ func (query *SQLQuery) getHeaders() (string, error) {
 			return "", &errors.EmptyHeaderExpressionError{}
 		}
 		headerExpression = headerExpression[:len(headerExpression)-1]
+		break
 	case sqlTypes.DELETE:
 		for _, column := range query.columnNames {
 			if column.IsUsed() {
 				return "", &errors.InvalidHeaderExpressionError{}
 			}
 		}
+		break
 	}
 
 	return strings.TrimLeft(headerExpression, " "), nil
@@ -265,10 +268,13 @@ func (query *SQLQuery) GetSQLQuery() (string, error) {
 	switch query.queryType {
 	case sqlTypes.SELECT:
 		sqlQueryString, err = query.getSelectQuery()
+		break
 	case sqlTypes.UPDATE:
 		sqlQueryString, err = query.getUpdateQuery()
+		break
 	case sqlTypes.DELETE:
 		sqlQueryString, err = query.getDeleteQuery()
+		break
 	}
 
 	if err != nil {
