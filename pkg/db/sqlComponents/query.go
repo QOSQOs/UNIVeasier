@@ -169,7 +169,7 @@ func (query *SQLQuery) getHeaders() (string, error) {
 		}
 	}
 
-	return headerExpression, nil
+	return strings.TrimLeft(headerExpression, " "), nil
 }
 
 func (query *SQLQuery) getFilters() (string, error) {
@@ -184,7 +184,7 @@ func (query *SQLQuery) getFilters() (string, error) {
 	}
 
 	if len(filterExpression) != 0 {
-		filterExpression = fmt.Sprintf("WHERE %s", filterExpression)
+		filterExpression = fmt.Sprintf("WHERE %s", strings.TrimLeft(filterExpression, " "))
 	}
 
 	return filterExpression, nil
