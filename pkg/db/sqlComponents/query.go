@@ -20,7 +20,7 @@ type SQLQuery struct {
 }
 
 func (query *SQLQuery) getColumns(conn *sql.DB, tableName string) error {
-	res, err := conn.Query("call GetColumnByTableName(?)", tableName)
+	res, err := conn.Query("select column_name from information_schema.columns where table_name = ?", tableName)
 	if err != nil {
 		common.Log.Errorw(utils.FailedSQLQuery("GetColumnByTableName"), "info", err.Error())
 		return err

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/QOSQOs/UNIVeasier/internal/common"
+	"github.com/QOSQOs/UNIVeasier/pkg/db/sqlComponents"
 	"github.com/QOSQOs/UNIVeasier/pkg/model"
 )
 
@@ -27,8 +28,17 @@ func GetTest(conn *sql.DB, name string) (model.Test, error) {
 }
 
 func GetListTest(conn *sql.DB) ([]model.Test, error) {
-	// Execute query to return many registries
-	res, err := conn.Query("call GetListTest()")
+	sqlQuery, err := sqlComponents.NewQuery(conn, "tabletest", "SELECT")
+	if err != nil {
+		return nil, err
+	}
+
+	sqlExpression, err := sqlQuery.GetSQLQuery()
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := conn.Query(sqlExpression)
 	if err != nil {
 		common.Log.Errorw("The query cannot be done", "info", err.Error())
 		return nil, err
