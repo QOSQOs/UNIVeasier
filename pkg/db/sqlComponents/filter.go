@@ -31,10 +31,10 @@ func (filter *SQLFilter) ToString() (string, error) {
 		return "", err
 	}
 
-	withLogicalOperator := false
+	withLogicalOperator := true
 	logicalOp, err := filter.logicalOperator.ToString()
 	if err != nil {
-		withLogicalOperator = true
+		withLogicalOperator = false
 	}
 
 	compOp, err := filter.compOperator.ToString()

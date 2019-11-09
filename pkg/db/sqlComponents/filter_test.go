@@ -52,8 +52,9 @@ func TestSQLFilterToString(t *testing.T) {
 			equals:         true,
 			expectedString: `A > 10`,
 			filter: SQLFilter{
-				compOperator: sqlTypes.GREATER,
-				sqlColumn:    SQLColumn{name: "A", value: 10},
+				logicalOperator: sqlTypes.UNKNOWN_LOGICAL,
+				compOperator:    sqlTypes.GREATER,
+				sqlColumn:       SQLColumn{name: "A", value: 10},
 			},
 		},
 		{
@@ -62,8 +63,9 @@ func TestSQLFilterToString(t *testing.T) {
 			equals:         true,
 			expectedString: `A = "test"`,
 			filter: SQLFilter{
-				compOperator: sqlTypes.EQUAL,
-				sqlColumn:    SQLColumn{name: "A", value: "test"},
+				logicalOperator: sqlTypes.UNKNOWN_LOGICAL,
+				compOperator:    sqlTypes.EQUAL,
+				sqlColumn:       SQLColumn{name: "A", value: "test"},
 			},
 		},
 		{
@@ -72,8 +74,20 @@ func TestSQLFilterToString(t *testing.T) {
 			equals:         true,
 			expectedString: `A = 1`,
 			filter: SQLFilter{
-				compOperator: sqlTypes.EQUAL,
-				sqlColumn:    SQLColumn{name: "A", value: true},
+				logicalOperator: sqlTypes.UNKNOWN_LOGICAL,
+				compOperator:    sqlTypes.EQUAL,
+				sqlColumn:       SQLColumn{name: "A", value: true},
+			},
+		},
+		{
+			numberTest:     3,
+			wantError:      false,
+			equals:         true,
+			expectedString: `OR A = "1"`,
+			filter: SQLFilter{
+				logicalOperator: sqlTypes.OR,
+				compOperator:    sqlTypes.EQUAL,
+				sqlColumn:       SQLColumn{name: "A", value: "1"},
 			},
 		},
 		{
