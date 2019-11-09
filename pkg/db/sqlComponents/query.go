@@ -14,7 +14,7 @@ import (
 
 type SQLQuery struct {
 	tableName   string
-	queryType   sqlTypes.SQLOperator
+	queryType   sqlTypes.Operator
 	columnNames map[string]SQLColumn
 	filters     []SQLFilter
 }
@@ -90,7 +90,7 @@ func (query *SQLQuery) SetColumnsValues(columnNames []string, values []interface
 	return nil
 }
 
-func (query *SQLQuery) addFilter(logical sqlTypes.SQLLogical, columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+func (query *SQLQuery) addFilter(logical sqlTypes.Logical, columnName string, cmp sqlTypes.Comparator, value interface{}) error {
 	if _, ok := query.columnNames[columnName]; !ok {
 		return &errors.ValueNotExistError{columnName, "ColumnNames"}
 	}
@@ -104,7 +104,7 @@ func (query *SQLQuery) addFilter(logical sqlTypes.SQLLogical, columnName string,
 	return nil
 }
 
-func (query *SQLQuery) AddFilter(columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+func (query *SQLQuery) AddFilter(columnName string, cmp sqlTypes.Comparator, value interface{}) error {
 	if len(query.filters) != 0 {
 		return &errors.InvalidFirstFilterError{}
 	}
@@ -115,7 +115,7 @@ func (query *SQLQuery) AddFilter(columnName string, cmp sqlTypes.SQLComparator, 
 	return nil
 }
 
-func (query *SQLQuery) AddANDFilter(columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+func (query *SQLQuery) AddANDFilter(columnName string, cmp sqlTypes.Comparator, value interface{}) error {
 	if len(query.filters) == 0 {
 		return &errors.InvalidFilterError{}
 	}
@@ -126,7 +126,7 @@ func (query *SQLQuery) AddANDFilter(columnName string, cmp sqlTypes.SQLComparato
 	return nil
 }
 
-func (query *SQLQuery) AddORFilter(columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+func (query *SQLQuery) AddORFilter(columnName string, cmp sqlTypes.Comparator, value interface{}) error {
 	if len(query.filters) == 0 {
 		return &errors.InvalidFilterError{}
 	}
@@ -278,7 +278,7 @@ func (query *SQLQuery) GetSQLQuery() (string, error) {
 }
 
 func NewQuery(conn *sql.DB, tableName, sqlQueryType string) (SQLQuery, error) {
-	queryType, err := sqlTypes.ToSQLOperator(sqlQueryType)
+	queryType, err := sqlTypes.ToOperator(sqlQueryType)
 	if err != nil {
 		return SQLQuery{}, err
 	}
