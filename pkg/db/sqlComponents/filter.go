@@ -1,14 +1,14 @@
 package sqlComponents
 
 import (
-	"github.com/QOSQOs/UNIVeasier/pkg/db/sqlComponents/sqlTypes"
-
 	"fmt"
+
+	"github.com/QOSQOs/UNIVeasier/pkg/db/sqlComponents/sqlTypes"
 )
 
 type SQLFilter struct {
-	logicalOperator sqlTypes.SQLLogical
-	compOperator    sqlTypes.SQLComparator
+	logicalOperator sqlTypes.Logical
+	compOperator    sqlTypes.Comparator
 	sqlColumn       SQLColumn
 }
 
@@ -45,15 +45,15 @@ func (filter *SQLFilter) ToString() (string, error) {
 	columnName := filter.sqlColumn.GetName()
 	columnValue := filter.sqlColumn.GetValue()
 
-	sqlFilter := fmt.Sprintf("%s %s %s", columnName, compOp, columnValue)
+	sqlStringFilter := fmt.Sprintf("%s %s %s", columnName, compOp, columnValue)
 	if withLogicalOperator {
-		sqlFilter = fmt.Sprintf("%s %s", logicalOp, sqlFilter)
+		sqlStringFilter = fmt.Sprintf("%s %s", logicalOp, sqlStringFilter)
 	}
 
-	return sqlFilter, nil
+	return sqlStringFilter, nil
 }
 
-func newFilter(logical sqlTypes.SQLLogical, columnName string, cmp sqlTypes.SQLComparator, value interface{}) (SQLFilter, error) {
+func newFilter(logical sqlTypes.Logical, columnName string, cmp sqlTypes.Comparator, value interface{}) (SQLFilter, error) {
 	sqlColumn := SQLColumn{name: columnName, value: value}
 
 	sqlFilter := SQLFilter{
