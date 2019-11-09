@@ -4,10 +4,10 @@ import (
 	"github.com/QOSQOs/UNIVeasier/pkg/db/errors"
 )
 
-type SQLComparator int8
+type Comparator int8
 
 const (
-	UNKNOWN_COMPARATOR SQLComparator = -1 + iota
+	UNKNOWN_COMPARATOR Comparator = -1 + iota
 	EQUAL
 	NOT_EQUAL
 	GREATER
@@ -18,7 +18,7 @@ const (
 	NOT_IN
 )
 
-var SQLComparatorList = [...]string{
+var ComparatorList = [...]string{
 	"=",
 	"<>",
 	">",
@@ -29,25 +29,25 @@ var SQLComparatorList = [...]string{
 	"NOT IN",
 }
 
-func (op SQLComparator) IsValid() error {
-	if op < 0 || int(op) >= len(SQLComparatorList) {
+func (op Comparator) IsValid() error {
+	if op < 0 || int(op) >= len(ComparatorList) {
 		return &errors.InvalidTypeIndexError{"SQL Comparator", int8(op)}
 	}
 	return nil
 }
 
-func (op SQLComparator) ToString() (string, error) {
+func (op Comparator) ToString() (string, error) {
 	if err := op.IsValid(); err == nil {
-		return SQLComparatorList[op], nil
+		return ComparatorList[op], nil
 	} else {
 		return "", err
 	}
 }
 
-func ToComparator(op string) (SQLComparator, error) {
-	for i, val := range SQLComparatorList {
+func ToComparator(op string) (Comparator, error) {
+	for i, val := range ComparatorList {
 		if val == op {
-			return SQLComparator(i), nil
+			return Comparator(i), nil
 		}
 	}
 	return UNKNOWN_COMPARATOR, &errors.InvalidTypeError{"SQL Comparator", op}

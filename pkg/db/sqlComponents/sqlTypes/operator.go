@@ -4,40 +4,40 @@ import (
 	"github.com/QOSQOs/UNIVeasier/pkg/db/errors"
 )
 
-type SQLOperator int8
+type Operator int8
 
 const (
-	UNKNOWN_OPERATOR SQLOperator = -1 + iota
+	UNKNOWN_OPERATOR Operator = -1 + iota
 	SELECT
 	UPDATE
 	DELETE
 )
 
-var SQLOperatorList = [...]string{
+var OperatorList = [...]string{
 	"SELECT",
 	"UPDATE",
 	"DELETE",
 }
 
-func (query SQLOperator) IsValid() error {
-	if query < 0 || int(query) >= len(SQLOperatorList) {
+func (query Operator) IsValid() error {
+	if query < 0 || int(query) >= len(OperatorList) {
 		return &errors.InvalidTypeIndexError{"SQL Operator", int8(query)}
 	}
 	return nil
 }
 
-func (query SQLOperator) ToString() (string, error) {
+func (query Operator) ToString() (string, error) {
 	if err := query.IsValid(); err == nil {
-		return SQLOperatorList[query], nil
+		return OperatorList[query], nil
 	} else {
 		return "", err
 	}
 }
 
-func ToSQLOperator(query string) (SQLOperator, error) {
-	for i, val := range SQLOperatorList {
+func ToOperator(query string) (Operator, error) {
+	for i, val := range OperatorList {
 		if val == query {
-			return SQLOperator(i), nil
+			return Operator(i), nil
 		}
 	}
 	return UNKNOWN_OPERATOR, &errors.InvalidTypeError{"SQL Operator", query}

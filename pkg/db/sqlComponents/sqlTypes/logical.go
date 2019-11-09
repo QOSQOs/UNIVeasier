@@ -4,38 +4,38 @@ import (
 	"github.com/QOSQOs/UNIVeasier/pkg/db/errors"
 )
 
-type SQLLogical int8
+type Logical int8
 
 const (
-	UNKNOWN_LOGICAL SQLLogical = -1 + iota
+	UNKNOWN_LOGICAL Logical = -1 + iota
 	AND
 	OR
 )
 
-var SQLLogicalList = [...]string{
+var LogicalList = [...]string{
 	"AND",
 	"OR",
 }
 
-func (op SQLLogical) IsValid() error {
-	if op < 0 || int(op) >= len(SQLLogicalList) {
+func (op Logical) IsValid() error {
+	if op < 0 || int(op) >= len(LogicalList) {
 		return &errors.InvalidTypeIndexError{"SQL Logical", int8(op)}
 	}
 	return nil
 }
 
-func (op SQLLogical) ToString() (string, error) {
+func (op Logical) ToString() (string, error) {
 	if err := op.IsValid(); err == nil {
-		return SQLLogicalList[op], nil
+		return LogicalList[op], nil
 	} else {
 		return "", err
 	}
 }
 
-func ToSQLLogical(op string) (SQLLogical, error) {
-	for i, val := range SQLLogicalList {
+func ToLogical(op string) (Logical, error) {
+	for i, val := range LogicalList {
 		if val == op {
-			return SQLLogical(i), nil
+			return Logical(i), nil
 		}
 	}
 	return UNKNOWN_LOGICAL, &errors.InvalidTypeError{"SQL Logical", op}
