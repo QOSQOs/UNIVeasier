@@ -6,13 +6,13 @@ import (
 	"fmt"
 )
 
-type SQLFilter1 struct {
+type SQLFilter struct {
 	logicalOperator sqlTypes.SQLLogical
 	compOperator    sqlTypes.SQLComparator
 	sqlColumn       SQLColumn
 }
 
-func (filter *SQLFilter1) IsValid() error {
+func (filter *SQLFilter) IsValid() error {
 	err := filter.logicalOperator.IsValid()
 	if err != nil && filter.logicalOperator != sqlTypes.UNKNOWN_LOGICAL {
 		return err
@@ -26,7 +26,7 @@ func (filter *SQLFilter1) IsValid() error {
 	return nil
 }
 
-func (filter *SQLFilter1) ToSTring() (string, error) {
+func (filter *SQLFilter) ToString() (string, error) {
 	if err := filter.IsValid(); err != nil {
 		return "", err
 	}
@@ -42,7 +42,7 @@ func (filter *SQLFilter1) ToSTring() (string, error) {
 		return "", err
 	}
 
-	columnName := filter.sqlColumn.ToString()
+	columnName := filter.sqlColumn.GetName()
 	columnValue := filter.sqlColumn.GetValue()
 
 	sqlFilter := fmt.Sprintf("%s %s %s", columnName, compOp, columnValue)
@@ -53,10 +53,10 @@ func (filter *SQLFilter1) ToSTring() (string, error) {
 	return sqlFilter, nil
 }
 
-func newFilter(logical sqlTypes.SQLLogical, columnName string, cmp sqlTypes.SQLComparator, value interface{}) (SQLFilter1, error) {
+func newFilter(logical sqlTypes.SQLLogical, columnName string, cmp sqlTypes.SQLComparator, value interface{}) (SQLFilter, error) {
 	sqlColumn := SQLColumn{name: columnName, value: value}
 
-	sqlFilter := SQLFilter1{
+	sqlFilter := SQLFilter{
 		logicalOperator: logical,
 		compOperator:    cmp,
 		sqlColumn:       sqlColumn,

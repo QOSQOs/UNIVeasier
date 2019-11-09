@@ -17,7 +17,7 @@ func (col *SQLColumn) IsUsed() bool {
 	return col.enable
 }
 
-func (col *SQLColumn) ToString() string {
+func (col *SQLColumn) GetName() string {
 	return col.name
 }
 

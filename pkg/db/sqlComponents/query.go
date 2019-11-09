@@ -1,6 +1,9 @@
 package sqlComponents
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/QOSQOs/UNIVeasier/internal/common"
 	"github.com/QOSQOs/UNIVeasier/internal/utils"
 	"github.com/QOSQOs/UNIVeasier/pkg/db/errors"
@@ -9,14 +12,14 @@ import (
 	"database/sql"
 )
 
-type SQLQuery1 struct {
+type SQLQuery struct {
 	tableName   string
 	queryType   sqlTypes.SQLOperator
 	columnNames map[string]SQLColumn
-	filters     []SQLFilter1
+	filters     []SQLFilter
 }
 
-func (query *SQLQuery1) getColumns(conn *sql.DB, tableName string) error {
+func (query *SQLQuery) getColumns(conn *sql.DB, tableName string) error {
 	res, err := conn.Query("call GetColumnByTableName(?)", tableName)
 	if err != nil {
 		common.Log.Errorw(utils.FailedSQLQuery("GetColumnByTableName"), "info", err.Error())
@@ -42,7 +45,15 @@ func (query *SQLQuery1) getColumns(conn *sql.DB, tableName string) error {
 	return nil
 }
 
-func (query *SQLQuery1) AddColumnsHeader(columnNames ...string) error {
+func (query *SQLQuery) AddColumnsHeader(columnNames ...string) error {
+	if query.queryType != sqlTypes.SELECT {
+		queryString, err := query.queryType.ToString()
+		if err != nil {
+			return err
+		}
+		return &errors.OperationNotSupportedError{"AddColumnHeader", queryString}
+	}
+
 	for _, column := range columnNames {
 		if sqlColumn, ok := query.columnNames[column]; ok {
 			sqlColumn.enable = true
@@ -54,7 +65,15 @@ func (query *SQLQuery1) AddColumnsHeader(columnNames ...string) error {
 	return nil
 }
 
-func (query *SQLQuery1) SetColumnsValues(columnNames []string, values []interface{}) error {
+func (query *SQLQuery) SetColumnsValues(columnNames []string, values []interface{}) error {
+	if query.queryType != sqlTypes.UPDATE {
+		queryString, err := query.queryType.ToString()
+		if err != nil {
+			return err
+		}
+		return &errors.OperationNotSupportedError{"SetColumnsValues", queryString}
+	}
+
 	if len(columnNames) != len(values) {
 		return &errors.NotEqualsSizeError{"column names", "values"}
 	}
@@ -71,7 +90,7 @@ func (query *SQLQuery1) SetColumnsValues(columnNames []string, values []interfac
 	return nil
 }
 
-func (query *SQLQuery1) addFilter(logical sqlTypes.SQLLogical, columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+func (query *SQLQuery) addFilter(logical sqlTypes.SQLLogical, columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
 	if _, ok := query.columnNames[columnName]; !ok {
 		return &errors.ValueNotExistError{columnName, "ColumnNames"}
 	}
@@ -85,7 +104,10 @@ func (query *SQLQuery1) addFilter(logical sqlTypes.SQLLogical, columnName string
 	return nil
 }
 
-func (query *SQLQuery1) AddFilter(columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+func (query *SQLQuery) AddFilter(columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+	if len(query.filters) != 0 {
+		return &errors.InvalidFirstFilterError{}
+	}
 	err := query.addFilter(sqlTypes.UNKNOWN_LOGICAL, columnName, cmp, value)
 	if err != nil {
 		return err
@@ -93,7 +115,10 @@ func (query *SQLQuery1) AddFilter(columnName string, cmp sqlTypes.SQLComparator,
 	return nil
 }
 
-func (query *SQLQuery1) AddANDFilter(columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+func (query *SQLQuery) AddANDFilter(columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+	if len(query.filters) == 0 {
+		return &errors.InvalidFilterError{}
+	}
 	err := query.addFilter(sqlTypes.AND, columnName, cmp, value)
 	if err != nil {
 		return err
@@ -101,7 +126,10 @@ func (query *SQLQuery1) AddANDFilter(columnName string, cmp sqlTypes.SQLComparat
 	return nil
 }
 
-func (query *SQLQuery1) AddORFilter(columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+func (query *SQLQuery) AddORFilter(columnName string, cmp sqlTypes.SQLComparator, value interface{}) error {
+	if len(query.filters) == 0 {
+		return &errors.InvalidFilterError{}
+	}
 	err := query.addFilter(sqlTypes.OR, columnName, cmp, value)
 	if err != nil {
 		return err
@@ -109,35 +137,160 @@ func (query *SQLQuery1) AddORFilter(columnName string, cmp sqlTypes.SQLComparato
 	return nil
 }
 
-func (query *SQLQuery1) GetSQLQuery() (string, error) {
-	var sqlQuery string
+func (query *SQLQuery) getHeaders() (string, error) {
+	headerExpression := ""
 
 	switch query.queryType {
 	case sqlTypes.SELECT:
-		return sqlQuery, nil
+		for _, column := range query.columnNames {
+			if column.IsUsed() {
+				headerExpression = fmt.Sprintf("%s %s,", headerExpression, column.GetName())
+			}
+		}
+		if len(headerExpression) == 0 {
+			return "*", nil
+		}
+		headerExpression = headerExpression[:len(headerExpression)-1]
+	case sqlTypes.UPDATE:
+		for _, column := range query.columnNames {
+			if column.IsUsed() {
+				headerExpression = fmt.Sprintf("%s %s = %s,", headerExpression, column.GetName(), column.GetValue())
+			}
+		}
+		if len(headerExpression) == 0 {
+			return "", &errors.EmptyHeaderExpressionError{}
+		}
+		headerExpression = headerExpression[:len(headerExpression)-1]
+	case sqlTypes.DELETE:
+		for _, column := range query.columnNames {
+			if column.IsUsed() {
+				return "", &errors.InvalidHeaderExpressionError{}
+			}
+		}
 	}
 
-	return sqlQuery, nil
+	return headerExpression, nil
 }
 
-//TODO
-// getheaders()
-// getfilters()
+func (query *SQLQuery) getFilters() (string, error) {
+	filterExpression := ""
 
-func NewQuery(conn *sql.DB, tableName, sqlQueryType string) (SQLQuery1, error) {
-	queryType, err := sqlTypes.ToSQLOperator(sqlQueryType)
-	if err != nil {
-		return SQLQuery1{}, err
+	for _, filter := range query.filters {
+		stringFilter, err := filter.ToString()
+		if err != nil {
+			return "", err
+		}
+		filterExpression = fmt.Sprintf("%s %s", filterExpression, stringFilter)
 	}
 
-	query := SQLQuery1{
+	if len(filterExpression) != 0 {
+		filterExpression = fmt.Sprintf("WHERE %s", filterExpression)
+	}
+
+	return filterExpression, nil
+}
+
+func (query *SQLQuery) getSelectQuery() (string, error) {
+	selectString, err := query.queryType.ToString()
+	if err != nil {
+		return "", err
+	}
+
+	stringHeaders, err := query.getHeaders()
+	if err != nil {
+		return "", err
+	}
+	selectString = fmt.Sprintf("%s %s", selectString, stringHeaders)
+
+	selectString = fmt.Sprintf("%s FROM %s", selectString, query.tableName)
+
+	stringFilters, err := query.getFilters()
+	if err != nil {
+		return "", err
+	}
+	selectString = fmt.Sprintf("%s %s", selectString, stringFilters)
+
+	return strings.TrimRight(selectString, " "), nil
+}
+
+func (query *SQLQuery) getUpdateQuery() (string, error) {
+	updateString, err := query.queryType.ToString()
+	if err != nil {
+		return "", err
+	}
+
+	updateString = fmt.Sprintf("%s %s SET", updateString, query.tableName)
+
+	stringHeaders, err := query.getHeaders()
+	if err != nil {
+		return "", err
+	}
+	updateString = fmt.Sprintf("%s %s", updateString, stringHeaders)
+
+	stringFilters, err := query.getFilters()
+	if err != nil {
+		return "", err
+	}
+	updateString = fmt.Sprintf("%s %s", updateString, stringFilters)
+
+	return strings.TrimRight(updateString, " "), nil
+}
+
+func (query *SQLQuery) getDeleteQuery() (string, error) {
+	deleteString, err := query.queryType.ToString()
+	if err != nil {
+		return "", err
+	}
+
+	deleteString = fmt.Sprintf("%s FROM %s", deleteString, query.tableName)
+
+	_, err = query.getHeaders()
+	if err != nil {
+		return "", err
+	}
+
+	stringFilters, err := query.getFilters()
+	if err != nil {
+		return "", err
+	}
+	deleteString = fmt.Sprintf("%s %s", deleteString, stringFilters)
+
+	return strings.TrimRight(deleteString, " "), nil
+}
+
+func (query *SQLQuery) GetSQLQuery() (string, error) {
+	var err error
+	var sqlQueryString string
+
+	switch query.queryType {
+	case sqlTypes.SELECT:
+		sqlQueryString, err = query.getSelectQuery()
+	case sqlTypes.UPDATE:
+		sqlQueryString, err = query.getUpdateQuery()
+	case sqlTypes.DELETE:
+		sqlQueryString, err = query.getDeleteQuery()
+	}
+
+	if err != nil {
+		return "", err
+	}
+	return sqlQueryString, nil
+}
+
+func NewQuery(conn *sql.DB, tableName, sqlQueryType string) (SQLQuery, error) {
+	queryType, err := sqlTypes.ToSQLOperator(sqlQueryType)
+	if err != nil {
+		return SQLQuery{}, err
+	}
+
+	query := SQLQuery{
 		tableName: tableName,
 		queryType: queryType,
 	}
 
 	err = query.getColumns(conn, tableName)
 	if err != nil {
-		return SQLQuery1{}, err
+		return SQLQuery{}, err
 	}
 
 	return query, nil
