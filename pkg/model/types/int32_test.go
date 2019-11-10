@@ -1,8 +1,8 @@
 package types
 
 import (
+	"github.com/QOSQOs/UNIVeasier/internal/common"
 	"github.com/QOSQOs/UNIVeasier/internal/utils"
-	"github.com/QOSQOs/UNIVeasier/pkg/model/common"
 	"github.com/stretchr/testify/assert"
 
 	"testing"
