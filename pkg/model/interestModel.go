@@ -14,12 +14,12 @@ type Interest struct {
 	CreatedBy        types.Int64  `json:"created_by"`
 }
 
-func (m *Interest) Validate() error {
-	if len(m.Tag.String) == 0 || len(m.Tag.String) > 100 {
-		return &errors.InvalidNameError{m.Tag.String}
+func (interestModel *Interest) Validate() error {
+	if len(interestModel.Tag.String) == 0 || len(interestModel.Tag.String) > 100 {
+		return &errors.InvalidNameError{interestModel.Tag.String}
 	}
 
-	if m.CreatedBy.IsNull() {
+	if interestModel.CreatedBy.IsNull() {
 		return &errors.NullValueNotAllowedError{"CreatedBy"}
 	}
 

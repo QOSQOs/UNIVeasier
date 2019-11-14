@@ -28,4 +28,10 @@ func (s *Server) RoutesTest() {
 	s.Router.HandleFunc("/interest/{id}", s.getInterestById).Methods("GET")
 	s.Router.HandleFunc("/interest", s.getListInterest).Methods("GET")
 	s.Router.HandleFunc("/interest", s.addInterest).Methods("POST")
+
+	// Album routes
+	s.Router.HandleFunc("/album/{id}", s.getAlbumById).Methods("GET")
+	s.Router.HandleFunc("/album", s.getListAlbum).Methods("GET")
+	s.Router.HandleFunc("/album", s.addAlbum).Methods("POST")
+
 }
